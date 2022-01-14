@@ -1,18 +1,17 @@
-const Profile =() =>{
+import MyPosts from './myPosts/MyPosts'
+import s from './Profile.module.scss'
+
+const Profile = () => {
   return (
-    <div className="content">
-      <div>
-        <img src="https://html5css.ru/howto/img_snow.jpg" alt="" />
+    <div className={s.content}>
+      <div className={s.profileImg}>
+        <img
+          src="https://cs8.pikabu.ru/post_img/big/2016/03/29/6/1459241134114051877.jpg"
+          alt=""
+        />
       </div>
       <div>ava</div>
-      <div>
-        My posts
-        <div>New Post</div>
-      </div>
-      <div>
-        <div>post 1</div>
-        <div>post 2</div>
-      </div>
+      <MyPosts />
     </div>
   )
 }

@@ -1,0 +1,17 @@
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  margin: 0 auto;
+  color: black;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}

@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import Header from './components/header/Header'
 import Navbar from './components/nav/Navbar'
 import Profile from './components/profile/Profile'
@@ -6,11 +6,11 @@ import Profile from './components/profile/Profile'
 const App = () => {
   return (
     <div className="app-wrapper">
-      <Header />
-      <div className="row">
-        <Navbar />
-        <Profile />
-      </div>
+        <Header />
+        <div className="row">
+          <Navbar />
+          <Profile />
+        </div>
     </div>
   )
 }
