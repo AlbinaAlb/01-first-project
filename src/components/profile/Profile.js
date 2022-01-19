@@ -6,9 +6,10 @@ const Profile = (props) => {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts postsData={props.postsData} />
+      <MyPosts postsData={props.postsData.posts} />
     </div>
   )
 }
 
 export default Profile
+

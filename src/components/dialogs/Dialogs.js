@@ -5,10 +5,10 @@ import Message from './message/Message'
 const Dialogs = (props) => {
   //перебирам массив с именами и сообщениями, и создаем новый в виде jsx
   //'DialogItem' и 'Message' это компоненты выше,в которые мы передаем пропcы (name, message, id) из массивов dialogs и messages
-  let dialogsElements = props.dialogsData.map((d, index) => (
+  let dialogsElements = props.dialogsData.dialogs.map((d, index) => (
     <DialogItem key={`dialogsElements_${index}`} name={d.name} id={d.id} />
   ))
-  let messagesElement = props.messagesData.map((m, index) => (
+  let messagesElement = props.dialogsData.messages.map((m, index) => (
     <Message key={`messagesElement_${index}`} message={m.message} id={m.id} />
   ))
 
