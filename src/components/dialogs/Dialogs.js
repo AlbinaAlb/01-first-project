@@ -1,35 +1,28 @@
 import s from './Dialogs.module.scss'
-import { NavLink } from 'react-router-dom'
+import DialogItem from './dialogItem/DialogsItem'
+import Message from './message/Message'
 
+const Dialogs = (props) => {
+  //перебирам массив с именами и сообщениями, и создаем новый в виде jsx
+  //'DialogItem' и 'Message' это компоненты выше,в которые мы передаем пропcы (name, message, id) из массивов dialogs и messages
+  let dialogsElements = props.dialogsData.map((d, index) => (
+    <DialogItem key={`dialogsElements_${index}`} name={d.name} id={d.id} />
+  ))
+  let messagesElement = props.messagesData.map((m, index) => (
+    <Message key={`messagesElement_${index}`} message={m.message} id={m.id} />
+  ))
 
-const Dialogs = () => (
-  <div className={s.dialogs}>
-    <div className={s.persons}>
-      <div className={s.persons__name + ' ' + s.active}>
-        <NavLink to="dialogs/1">Dmitriy</NavLink>
+  return (
+    <div className={s.dialogs}>
+      <div className={s.persons}>
+        {/*как если бы
+       <div className={s.persons__name + ' ' + s.active}>
+          <NavLink to="dialogs/1">Dmitriy</NavLink>
+      </div> */}
+        {dialogsElements}
       </div>
-      <div className={s.persons__name}>
-        <NavLink to="dialogs/2">Serhey</NavLink>
-      </div>
-      <div className={s.persons__name}>
-        <NavLink to="dialogs/3">Vladislav</NavLink>
-      </div>
-      <div className={s.persons__name}>
-        <NavLink to="dialogs/4">Elizaveta</NavLink>
-      </div>
-      <div className={s.persons__name}>
-        <NavLink to="dialogs/5">Oleh</NavLink>
-      </div>
-      <div className={s.persons__name}>
-        <NavLink to="dialogs/6">Alyona</NavLink>
-      </div>
+      <div className={s.chats}>{messagesElement}</div>
     </div>
-    <div className={s.chats}>
-      <div className={s.chats__message}>Hello</div>
-      <div className={s.chats__message}>How are you?</div>
-      <div className={s.chats__message}>Thank you!</div>
-    </div>
-  </div>
-)
-
+  )
+}
 export default Dialogs

@@ -1,17 +1,12 @@
 import MyPosts from './myPosts/MyPosts'
-import s from './Profile.module.scss'
+//import s from './Profile.module.scss'
+import ProfileInfo from './profileInfo/ProfileInfo'
 
-const Profile = () => {
+const Profile = (props) => {
   return (
     <div>
-      <div className={s.profileImg}>
-        <img
-          src="https://cs8.pikabu.ru/post_img/big/2016/03/29/6/1459241134114051877.jpg"
-          alt=""
-        />
-      </div>
-      <div>ava</div>
-      <MyPosts />
+      <ProfileInfo />
+      <MyPosts postsData={props.postsData} />
     </div>
   )
 }
