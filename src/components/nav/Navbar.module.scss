@@ -1,4 +1,7 @@
 .nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: rgba(40, 133, 156, 0.767);
   width: 20%;
   margin-right: 10px;
@@ -7,9 +10,18 @@
   &__item {
     color: rgba(255, 255, 255, 0.904);
 
-    a.active{
+    a.active {
       color: rgb(139, 251, 255);
     }
   }
-}
 
+  &__friends {
+    margin-bottom: 30px;
+    img {
+      margin-top: 10px;
+      width: 50px;
+      height: 47px;
+      border-radius: 50%;
+    }
+  }
+}

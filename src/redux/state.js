@@ -21,7 +21,10 @@ let state = {
       { id: 3, message: 'Thank you!' },
       { id: 4, message: 'Lorem, ipsum dolor.' },
     ],
-  } 
+  },
+  sidebar: {
+
+  }
 }
 
 export default state
