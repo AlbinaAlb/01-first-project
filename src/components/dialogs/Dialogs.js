@@ -1,6 +1,8 @@
+import React from 'react'
 import s from './Dialogs.module.scss'
 import DialogItem from './dialogItem/DialogsItem'
 import Message from './message/Message'
+
 
 const Dialogs = (props) => {
   //перебирам массив с именами и сообщениями, и создаем новый в виде jsx
@@ -12,6 +14,15 @@ const Dialogs = (props) => {
     <Message key={`messagesElement_${index}`} message={m.message} id={m.id} />
   ))
 
+   let newMessageElement = React.createRef()
+
+   //достаем из textarea введенное в него значение
+   let addMessage = () => {
+     let text = newMessageElement.current.value
+     console.log(text);
+   }
+
+
   return (
     <div className={s.dialogs}>
       <div className={s.persons}>
@@ -21,7 +32,12 @@ const Dialogs = (props) => {
       </div> */}
         {dialogsElements}
       </div>
-      <div className={s.chats}>{messagesElement}</div>
+      <div className={s.chats}>
+        {messagesElement}
+        <textarea ref={newMessageElement}></textarea>
+        <br />
+        <button onClick={addMessage}>Send</button>
+      </div>
     </div>
   )
 }

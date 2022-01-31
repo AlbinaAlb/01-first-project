@@ -2,6 +2,7 @@ import React from 'react'
 import s from './MyPosts.module.scss'
 import Post from './post/Post'
 
+//тупой компонент,запускает ф-ю которая в него пришла addPost и в эту функцию передает text
 const MyPosts = (props) => {
   //перебирам массив с постами, и создаем новый в виде jsx
   //'Post' это компонент,в который мы передаем пропcы (message, likesCount) из массива posts
@@ -18,7 +19,9 @@ const MyPosts = (props) => {
 
   //достаем из textarea введенное в него значение
   let addPost = () => {
-    let text = newPostElement.current.value 
+    let text = newPostElement.current.value
+    props.addPostToState(text)
+    newPostElement.current.value = ''
   }
 
   return (

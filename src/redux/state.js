@@ -1,3 +1,5 @@
+import { renderEntireTree } from "../render"
+
 //типа данные с сервера в виде объекта массивов объектов
 let state = {
   profilePage: {
@@ -25,6 +27,16 @@ let state = {
   sidebar: {
 
   }
+}
+
+export let addPostToState = (postMessage) => {
+  let newPost = {
+    id: 5,
+    message: postMessage,
+    likesCount: '0 likes',
+  }
+  state.profilePage.posts.push(newPost)
+  renderEntireTree(state)
 }
 
 export default state
