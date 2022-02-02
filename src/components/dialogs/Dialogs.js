@@ -3,7 +3,6 @@ import s from './Dialogs.module.scss'
 import DialogItem from './dialogItem/DialogsItem'
 import Message from './message/Message'
 
-
 const Dialogs = (props) => {
   //перебирам массив с именами и сообщениями, и создаем новый в виде jsx
   //'DialogItem' и 'Message' это компоненты выше,в которые мы передаем пропcы (name, message, id) из массивов dialogs и messages
@@ -14,14 +13,21 @@ const Dialogs = (props) => {
     <Message key={`messagesElement_${index}`} message={m.message} id={m.id} />
   ))
 
-   let newMessageElement = React.createRef()
+  //метод createRef у реакта - создает ссылку на какой-то элемент и привязываем к textarea, а потом можем к этой ссылке обращаться
+  let newMessageElement = React.createRef()
 
-   //достаем из textarea введенное в него значение
-   let addMessage = () => {
-     let text = newMessageElement.current.value
-     console.log(text);
-   }
+  //достаем из textarea введенное в него значение
+  let addMessage = () => {
+    props.addMessageToState()
+  }
 
+  //чтобы прокидывались изменения,которые ввели в textarea
+  let onMessageChange = () => {
+    //достаем из textarea введенное в него значение
+    let text = newMessageElement.current.value
+    //изменения с новым текстом, который ввели в textarea идут в state
+    props.updateNewMessageText(text)
+  }
 
   return (
     <div className={s.dialogs}>
@@ -34,7 +40,11 @@ const Dialogs = (props) => {
       </div>
       <div className={s.chats}>
         {messagesElement}
-        <textarea ref={newMessageElement}></textarea>
+        <textarea
+          onChange={onMessageChange}
+          ref={newMessageElement}
+          value={props.newMessageText}
+        />
         <br />
         <button onClick={addMessage}>Send</button>
       </div>

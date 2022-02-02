@@ -17,18 +17,27 @@ const MyPosts = (props) => {
   //метод createRef у реакта - создает ссылку на какой-то элемент и привязываем к textarea, а потом можем к этой ссылке обращаться
   let newPostElement = React.createRef()
 
-  //достаем из textarea введенное в него значение
+  //ф-я добавляет пост
   let addPost = () => {
+    props.addPostToState()
+  }
+
+  //чтобы прокидывались изменения,которые ввели в textarea
+  let onPostChange = () =>{
+    //достаем из textarea введенное в него значение
     let text = newPostElement.current.value
-    props.addPostToState(text)
-    newPostElement.current.value = ''
+    //изменения с новым текстом, который ввели в textarea идут в state
+    props.updateNewPostText(text)
   }
 
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
       <div className={s.postsBlock__addPost}>
-        <textarea ref={newPostElement}></textarea>
+        <textarea 
+        onChange={onPostChange}
+        ref={newPostElement} 
+        value={props.newPostText} />
         <br />
         <button onClick={addPost}>Add post</button>
       </div>
