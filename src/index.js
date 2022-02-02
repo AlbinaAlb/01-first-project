@@ -1,5 +1,5 @@
 import './index.css';
-import state, {subscribe} from './redux/state'
+import store from './redux/state'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
@@ -7,23 +7,16 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 
-import {
-  addPostToState,
-  addMessageToState,
-  updateNewPostText,
-  updateNewMessageText
-} from './redux/state'
-
 //ф-я занимается перерисовкой всего дерева
 let renderEntireTree = (state) => {
   ReactDOM.render(
     <BrowserRouter>
       <App
         state={state}
-        addPostToState={addPostToState}
-        addMessageToState={addMessageToState}
-        updateNewPostText={updateNewPostText}
-        updateNewMessageText={updateNewMessageText}
+        addPostToState={store.addPostToState.bind(store)}
+        addMessageToState={store.addMessageToState.bind(store)}
+        updateNewPostText={store.updateNewPostText.bind(store)}
+        updateNewMessageText={store.updateNewMessageText.bind(store)}
       />
     </BrowserRouter>,
     document.getElementById('root')
@@ -31,6 +24,6 @@ let renderEntireTree = (state) => {
 }
 reportWebVitals()
 
-renderEntireTree(state)
+renderEntireTree(store.getState())
 
-subscribe(renderEntireTree)
+store.subscribe(renderEntireTree)
