@@ -4,30 +4,30 @@ import DialogItem from './dialogItem/DialogsItem'
 import Message from './message/Message'
 
 const Dialogs = (props) => {
+ let state = props.dialogsPage
   //перебирам массив с именами и сообщениями, и создаем новый в виде jsx
   //'DialogItem' и 'Message' это компоненты выше,в которые мы передаем пропcы (name, message, id) из массивов dialogs и messages
-  let dialogsElements = props.dialogsData.dialogs.map((d, index) => (
+  let dialogsElements = state.dialogs.map((d, index) => (
     <DialogItem key={`dialogsElements_${index}`} name={d.name} id={d.id} />
   ))
-  let messagesElement = props.dialogsData.messages.map((m, index) => (
+  let messagesElement = state.messages.map((m, index) => (
     <Message key={`messagesElement_${index}`} message={m.message} id={m.id} />
   ))
-
-  //метод createRef у реакта - создает ссылку на какой-то элемент и привязываем к textarea, а потом можем к этой ссылке обращаться
-  let newMessageElement = React.createRef()
-
-  //достаем из textarea введенное в него значение
-  let addMessage = () => {
-    props.addMessageToState()
+  let newMessageBody = state.newMessageText
+  
+  //Кликнули по кнопке, значит надо отправить сообщение
+  let onSendMessageClick = () => {
+    props.sendMessage()
   }
 
   //чтобы прокидывались изменения,которые ввели в textarea
-  let onMessageChange = () => {
+  let onMessageChange = (e) => {
     //достаем из textarea введенное в него значение
-    let text = newMessageElement.current.value
+    let body = e.target.value
     //изменения с новым текстом, который ввели в textarea идут в state
-    props.updateNewMessageText(text)
+    props.updateNewMessageBody(body)
   }
+
 
   return (
     <div className={s.dialogs}>
@@ -38,15 +38,17 @@ const Dialogs = (props) => {
       </div> */}
         {dialogsElements}
       </div>
-      <div className={s.chats}>
-        {messagesElement}
+      <div className={s.chats}>{messagesElement}</div>
+      <div>
         <textarea
           onChange={onMessageChange}
-          ref={newMessageElement}
-          value={props.newMessageText}
+          /* ref={newMessageElement} */
+          value={newMessageBody}
         />
-        <br />
-        <button onClick={addMessage}>Send</button>
+      </div>
+      <br />
+      <div>
+        <button onClick={onSendMessageClick}>Send</button>
       </div>
     </div>
   )

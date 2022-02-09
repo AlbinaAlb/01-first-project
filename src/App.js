@@ -1,15 +1,15 @@
+import React from 'react'
 import './App.scss'
 import Header from './components/header/Header'
 import Navbar from './components/nav/Navbar'
-
 import Profile from './components/profile/Profile'
-import Dialogs from './components/dialogs/Dialogs'
+import DialogsContainer from './components/dialogs/DialogsContainer'
 import News from './components/news/News'
 import Music from './components/music/Music'
 import Settings from './components/settings/Settings'
 import Friends from './components/friends/Friends'
 
-import { Routes,  Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 const App = (props) => {
   return (
@@ -21,23 +21,11 @@ const App = (props) => {
           <Routes>
             <Route
               path="/profile/*"
-              element={
-                <Profile
-                  profilePage={props.state.profilePage}
-                  addPostToState={props.addPostToState}
-                  updateNewPostText={props.updateNewPostText}
-                />
-              }
+              element={<Profile store={props.store} />}
             />
             <Route
               path="/dialogs/*"
-              element={
-                <Dialogs
-                  dialogsData={props.state.dialogsPage}
-                  addMessageToState={props.addMessageToState}
-                  updateNewMessageText={props.updateNewMessageText}
-                />
-              }
+              element={<DialogsContainer store={props.store} />}
             />
             <Route path="/news/*" element={<News />} />
             <Route path="/music/*" element={<Music />} />
