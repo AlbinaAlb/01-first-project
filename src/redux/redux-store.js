@@ -14,4 +14,6 @@ let reducers = combineReducers({
 //createStore создает внутри себя store с тремя свойствами редюсерами
 const store = createStore(reducers)
 
+window.store = store
+
 export default store

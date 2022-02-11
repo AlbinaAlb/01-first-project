@@ -1,30 +1,34 @@
-import React from 'react'
+import { connect } from 'react-redux'
 import {
   addMessageActionCreator,
   updateNewMessageTextActionCreator,
 } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
 
-const DialogsContainer = (props) => {
-  let state = props.store.getState().dialogsPage
-
-  //достаем из textarea введенное в него значение
-  let onSendMessageClick = () => {
-    props.store.dispatch(addMessageActionCreator())
+//ф-я мапит стейт на пропсы (превращает часть стейта в пропсы)
+//настраивает свойства,которые мы берем из стейта
+let mapStateToProps = (state) => {
+  return {
+    dialogsPage: state.dialogsPage
   }
-
-  //чтобы прокидывались изменения,которые ввели в textarea
-  let onMessageChange = (body) => {
-    //изменения с новым текстом, который ввели в textarea идут в state
-    props.store.dispatch(updateNewMessageTextActionCreator(body))
-  }
-
-  return (
-    <Dialogs
-      updateNewMessageBody={onMessageChange}
-      sendMessage={onSendMessageClick}
-      dialogsPage={state}
-    />
-  )
 }
+
+//настраивает колбэки, которые мы будем отправлять в презент.компонент
+let mapDispatchToProps = (dispatch) => {
+  return {
+    //достаем из textarea введенное в него значение
+    updateNewMessageBody: () => {
+      dispatch(addMessageActionCreator())
+    },
+    //изменения с новым текстом, который ввели в textarea идут в state
+    sendMessage: (body) => {
+      dispatch(updateNewMessageTextActionCreator(body))
+    },
+  }
+}
+
+//Dialogs законектили к стору
+//connect настраивает контейнерный компонент, который служит оберткой для презентационного-чистого компонента Dialogs
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+
 export default DialogsContainer

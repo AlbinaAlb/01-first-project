@@ -1,35 +1,36 @@
-import React from 'react'
+import { connect } from 'react-redux'
 import {
   addPostActionCreator,
   updateNewPostTextActionCreator,
 } from '../../../redux/profile-reducer'
 import MyPosts from './MyPosts'
 
-//НЕ тупой контейнерный компонент,который служит оберткой для презентационного-чистого компонента MyPosts
-//взаимодействие со store
-//сюда придут посты
-const MyPostsContainer = (props) => {
-  let state = props.store.getState()
-
-  //ф-я добавляет пост
-  let addPost = () => {
-    props.store.dispatch(addPostActionCreator())
+//ф-я мапит стейт на пропсы (превращает часть стейта в пропсы)
+//настраивает свойства,которые мы берем из стейта
+let mapStateToProps = (state) => {
+  return {
+    posts: state.profilePage.posts,
+    newPostText: state.profilePage.newPostText,
   }
-
-  //из MyPosts сюда попадает текст введенный в textarea и фомируется action, который диспатчится в store
-  let onPostChange = (text) => {
-    let action = updateNewPostTextActionCreator(text)
-    props.store.dispatch(action)
-  }
-  //передаем в MyPosts изменения для отрисовки
-  return (
-    <MyPosts
-      updateNewPostText={onPostChange}
-      addPost={addPost}
-      posts={state.profilePage.posts}
-      newPostText={state.profilePage.newPostText}
-    />
-  )
 }
+
+//настраивает колбэки, которые мы будем отправлять в презент.компонент
+let mapDispatchToProps = (dispatch) => {
+  return {
+    //ф-я добавляет пост
+    addPost: () => {
+      dispatch(addPostActionCreator())
+    },
+    //из MyPosts сюда попадает текст введенный в textarea и фомируется action, который диспатчится в store
+    updateNewPostText: (text) => {
+      dispatch(updateNewPostTextActionCreator(text))
+    },
+  }
+}
+
+//connect настраивает контейнерный компонент, который служит оберткой для презентационного-чистого компонента MyPosts
+//MyPosts законектили к стору
+//сюда придут посты
+const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
 
 export default MyPostsContainer
