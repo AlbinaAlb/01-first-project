@@ -17,11 +17,11 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     //достаем из textarea введенное в него значение
-    updateNewMessageBody: () => {
+    sendMessage: () => {
       dispatch(addMessageActionCreator())
     },
     //изменения с новым текстом, который ввели в textarea идут в state
-    sendMessage: (body) => {
+    updateNewMessageBody: (body) => {
       dispatch(updateNewMessageTextActionCreator(body))
     },
   }

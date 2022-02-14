@@ -9,7 +9,7 @@ let initialState = {
     { id: 3, name: 'Vladislav', lastname: 'Ivanov' },
     { id: 4, name: 'Elizaveta', lastname: 'Artemenko' },
     { id: 5, name: 'Oleh', lastname: 'Diyanov' },
-    { id: 6, name: 'Alyona', lastname: 'Petrova' }
+    { id: 6, name: 'Alyona', lastname: 'Petrova' },
   ],
   messages: [
     { id: 1, message: 'Hello' },
@@ -23,20 +23,20 @@ let initialState = {
 const dialogsReducer = (state = initialState, action) => {
   //метод для создания нового сообщения в диалогах
   switch (action.type) {
-    case ADD_MESSAGE_TO_STATE:
-      let newMessage = {
-        id: 5,
-        message: state.newMessageText,
-      }
-      //добавить ноое сообщение
-      state.messages.push(newMessage)
-      //обнулить textarea после добавления сообщения
-      state.newMessageText = ''
-      return state
     case UPDATE_NEW_MESSAGE_TEXT:
-      //меняем в state newMessageText на введенное значение, которое прийдет в эту функцию через newText
-      state.newMessageText = action.newText
-      return state
+      //создаем новый объект stateCopy, копируем все значения из старого state, но массив messages будет новый - т.е. будет меняться
+      return  {
+        ...state,
+        //меняем в state newMessageText на введенное значение, которое прийдет в эту функцию через newText
+        newMessageText: action.newText,
+      }
+    case ADD_MESSAGE_TO_STATE:
+      let body = state.newMessageText
+      return {
+        ...state,
+        newMessageText: '',
+        messages: [...state.messages, { id: 5, message: body }],
+      }
     default:
       return state
   }

@@ -14,21 +14,26 @@ let initialState = {
 const profileReducer = (state = initialState, action) => {
   //метод для создания нового поста в ленте
   switch (action.type) {
-    case ADD_POST_TO_STATE:
-      let newPost = {
-        id: 5,
-        message: state.newPostText,
-        likesCount: '0 likes',
+    case ADD_POST_TO_STATE: {
+      //делаем поверхностную копию стейта
+      return {
+        ...state,
+        newPostText: '',
+        //делаем глубокую копию стейта (с массивом), так как мы планируем менять этот массив 
+        posts: [
+          ...state.posts,
+          //добавляем в массив постов новый пост
+          { id: 5, message: state.newPostText, likesCount: '0 likes' },
+        ],
       }
-      //добавить новый пост
-      state.posts.push(newPost)
-      //обнулить textarea после добавления поста
-      state.newPostText = ''
-      return state
-    case UPDATE_NEW_POST_TEXT:
-      //меняем в state newPostText на введенное значение, которое прийдет в эту функцию через newText
-      state.newPostText = action.newText
-      return state
+    }
+    case UPDATE_NEW_POST_TEXT: {
+      return {
+        ...state,
+        //меняем в stateCopy newPostText на введенное значение, которое прийдет в эту функцию через newText
+        newPostText: action.newText,
+      }
+    }
     default:
       return state
   }
