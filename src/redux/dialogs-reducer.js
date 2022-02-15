@@ -7,9 +7,9 @@ let initialState = {
     { id: 1, name: 'Dmitriy', lastname: 'Albinovych' },
     { id: 2, name: 'Serhey', lastname: 'Polunov' },
     { id: 3, name: 'Vladislav', lastname: 'Ivanov' },
-    { id: 4, name: 'Elizaveta', lastname: 'Artemenko' },
-    { id: 5, name: 'Oleh', lastname: 'Diyanov' },
-    { id: 6, name: 'Alyona', lastname: 'Petrova' },
+    { id: 4, name: 'Ulyana', lastname: 'Rublevskaya' },
+    { id: 5, name: 'Aleksandr', lastname: 'Bocharnikov' },
+    { id: 6, name: 'Yan', lastname: 'Bocharnikov' },
   ],
   messages: [
     { id: 1, message: 'Hello' },
