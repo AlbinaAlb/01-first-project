@@ -4,35 +4,7 @@ const SET_USERS = 'SET-USERS'
 
 //объект со стартовыми данными. В случае если в state у profileReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
-  users: [
-   /*  {
-      id: 1,
-      photoUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Dmitry_Nagiev_2017_4.jpg/220px-Dmitry_Nagiev_2017_4.jpg',
-      followed: false,
-      fullName: 'Dmitry',
-      status: 'I am a boss',
-      location: { city: 'Minsk', country: 'Belarus' },
-    },
-    {
-      id: 2,
-      photoUrl:
-        'https://icdn.lenta.ru/images/2019/12/18/16/20191218163928484/square_320_4228bbfbd5d3f7ba836392280aa08e35.jpg',
-      followed: true,
-      fullName: 'Sasha',
-      status: 'I am a boss too',
-      location: { city: 'Moscow', country: 'Russia' },
-    },
-    {
-      id: 3,
-      photoUrl:
-        'https://www.ladbible.com/cdn-cgi/image/width=720,quality=70,format=jpeg,fit=pad,dpr=1/https%3A%2F%2Fs3-images.ladbible.com%2Fs3%2Fcontent%2Fc108530658884b252cdc054dc1786045.jpg',
-      followed: false,
-      fullName: 'Andrew',
-      status: 'I am a boss too',
-      location: { city: 'Kiev', country: 'Ukraine' },
-    }, */
-  ],
+  users: [],
 }
 
 //преобразование state
