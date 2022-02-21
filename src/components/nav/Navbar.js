@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 const Navbar = () => {
   return (
     <nav className={s.nav}>
-      <div>
         <div className={s.nav__item}>
           <NavLink
             to="/profile"
@@ -19,6 +18,14 @@ const Navbar = () => {
             to="/dialogs"
           >
             Messages
+          </NavLink>
+        </div>
+        <div className={s.nav__item}>
+          <NavLink
+            className={(navData) => (navData.isActive ? s.active : s.item)}
+            to="/users"
+          >
+            Users
           </NavLink>
         </div>
         <div className={s.nav__item}>
@@ -44,7 +51,6 @@ const Navbar = () => {
           >
             Settings
           </NavLink>
-        </div>
       </div>
       <div className={s.nav__friends}>
         <div className={s.nav__item}>

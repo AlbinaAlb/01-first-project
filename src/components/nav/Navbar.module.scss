@@ -1,7 +1,6 @@
 .nav {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background-color: rgba(40, 133, 156, 0.767);
   width: 20%;
   margin-right: 10px;
@@ -19,7 +18,7 @@
   }
 
   &__friends {
-    margin-bottom: 30px;
+    margin-top: 30px;
     img {
       margin-top: 10px;
       width: 50px;
