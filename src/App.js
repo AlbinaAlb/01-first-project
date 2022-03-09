@@ -2,7 +2,7 @@ import React from 'react'
 import './App.scss'
 import Header from './components/header/Header'
 import Navbar from './components/nav/Navbar'
-import Profile from './components/profile/Profile'
+import ProfileContainer from './components/profile/ProfileContainer'
 import DialogsContainer from './components/dialogs/DialogsContainer'
 import News from './components/news/News'
 import Music from './components/music/Music'
@@ -20,7 +20,7 @@ const App = (props) => {
         <Navbar />
         <div className="app-wrapper-content">
           <Routes>
-            <Route path="/profile/*" element={<Profile />} />
+            <Route path="/profile/*" element={<ProfileContainer />} />
             <Route path="/dialogs/*" element={<DialogsContainer />} />
             <Route path="/users/*" element={<UsersContainer />} />
             <Route path="/news/*" element={<News />} />

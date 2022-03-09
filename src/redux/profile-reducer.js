@@ -1,5 +1,7 @@
+//action types
 const ADD_POST_TO_STATE = 'ADD-POST-TO-STATE'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+const SET_USER_PROFILE = 'SET_USER_PROFILE'
 
 //объект со стартовыми данными. В случае если в state у profileReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
@@ -8,6 +10,7 @@ let initialState = {
     { id: 2, message: "It's my first post", likesCount: '20 likes' },
   ],
   newPostText: '',
+  profile: null
 }
 
 //преобразование state
@@ -19,7 +22,7 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         newPostText: '',
-        //делаем глубокую копию стейта (с массивом), так как мы планируем менять этот массив 
+        //делаем глубокую копию стейта (с массивом), так как мы планируем менять этот массив
         posts: [
           ...state.posts,
           //добавляем в массив постов новый пост
@@ -34,15 +37,23 @@ const profileReducer = (state = initialState, action) => {
         newPostText: action.newText,
       }
     }
+    //если тип экшена SET_USER_PROFILE, то мы вернем копию стейта в которой поменяем профайл на профайл из экшена
+    case SET_USER_PROFILE:{
+      return {...state, profile: action.profile}
+    }
     default:
       return state
   }
 }
 
+//ActionCreator - это ф-я,которая возвращает объект action: { type: SET_USER_PROFILE, profile }. 
+//action это объект в котоом инкапсулированы все данные,чтобы редюсер получил этот action и примнил изменения на свой стейт
+//SET_USER_PROFILE это навание действия - что нужно сделать, profile - где нужно сделать
 export const addPostActionCreator = () => ({ type: ADD_POST_TO_STATE })
 export const updateNewPostTextActionCreator = (text) => ({
   type: UPDATE_NEW_POST_TEXT,
   newText: text,
 })
+export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 
 export default profileReducer

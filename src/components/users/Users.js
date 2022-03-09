@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './users.module.scss'
+import { NavLink } from 'react-router-dom'
 
 
 let Users = (props) =>{
@@ -35,15 +36,18 @@ let Users = (props) =>{
         <div key={u.id}>
           <span>
             <div>
-              <img
-                src={
-                  u.photos.small !== null
-                    ? u.photos.small
-                    : 'https://www.freeiconspng.com/uploads/msn-icon-24.png'
-                }
-                alt=""
-                className={styles.userPhoto}
-              />
+              {/* ссылка на профайл определенного юзера */}
+              <NavLink to={'/profile/' + u.id}>
+                <img
+                  src={
+                    u.photos.small !== null
+                      ? u.photos.small
+                      : 'https://www.freeiconspng.com/uploads/msn-icon-24.png'
+                  }
+                  alt=""
+                  className={styles.userPhoto}
+                />
+              </NavLink>
             </div>
             <div>
               {u.followed ? (
