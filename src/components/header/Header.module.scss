@@ -8,4 +8,13 @@
     height: 100px;
     width: 100px;
   }
+
+  &__loginBlock {
+    float: right;
+    color: rgba(255, 255, 255, 0.904);
+    &:hover {
+      color: rgb(193, 248, 250);
+      cursor: pointer;
+    }
+  }
 }
