@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './users.module.scss'
 import { NavLink } from 'react-router-dom'
+import { usersAPI } from '../../api/api'
 
 
 let Users = (props) =>{
@@ -50,23 +51,28 @@ let Users = (props) =>{
               </NavLink>
             </div>
             <div>
-              {u.followed ? (
-                <button
-                  onClick={() => {
-                    props.unfollow(u.id)
-                  }}
-                >
-                  Unfollow
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    props.follow(u.id)
-                  }}
-                >
-                  Follow
-                </button>
-              )}
+              {u.followed 
+              // внутри анонимной ф-и вызывается follow/unfollow, который приходит из ActionCreator c UsersContainer 
+              ? <button onClick={() => {
+                 usersAPI.unfollow(u.id)
+                 .then((response) => {
+                   //если подписка произошла тогда диспатчим колбэк follow в редюсер
+                   if (response.data.resultCode === 0) {
+                     props.unfollow(u.id)
+                   }
+                 })
+                
+                props.unfollow(u.id)}}>Unfollow</button>
+               : <button onClick={() => {
+
+                 usersAPI.follow(u.id).then((response) => {
+                   //если подписка произошла тогда диспатчим колбэк follow в редюсер
+                   if (response.data.resultCode === 0) {
+                     props.follow(u.id)
+                   }
+                 })
+                }}>Follow</button>
+              }
             </div>
           </span>
           <span>

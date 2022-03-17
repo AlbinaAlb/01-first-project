@@ -9,27 +9,25 @@ import {
   toggleIsFetching,
 } from '../../redux/users-reducer'
 import Preloader from '../common/preloader/Preloader'
-import * as axios from 'axios'
 import Users from './Users'
+import { usersAPI } from '../../api/api'
 
 //ф-я делает AJAX запрос на сервер
 class UsersContainer extends React.Component {
   componentDidMount() {
     //когда запрос идет на сервер
     this.props.toggleIsFetching(true)
-    //запрос на сервер и получение двнных оттуда и вставкой выбранной страницы и размер кол-ва юзеров на странице
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
-      )
-      .then((response) => {
+    //запрос на сервер и получение данных оттуда и вставкой выбранной страницы и размер кол-ва юзеров на странице
+    usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(
+      (data) => {
         //когда пришел ответ с сервера
         this.props.toggleIsFetching(false)
         //получить всех пользователей с сервера
-        this.props.setUsers(response.data.items)
+        this.props.setUsers(data.items)
         //получить все страницы с сервера
-        this.props.setTotalUsersCount(response.data.totalCount)
-      })
+        this.props.setTotalUsersCount(data.totalCount)
+      }
+    )
   }
 
   //по клику на кнопку
@@ -37,13 +35,9 @@ class UsersContainer extends React.Component {
     this.props.setCurrentPage(pageNumber)
     this.props.toggleIsFetching(true)
     //запрос на сервер и получение двнных оттуда
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
-      )
-      .then((response) => {
+      usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
         this.props.toggleIsFetching(false)
-        this.props.setUsers(response.data.items)
+        this.props.setUsers(data.items)
       })
   }
 
@@ -112,5 +106,5 @@ export default connect(mapStateToProps, {
   setUsers,
   setCurrentPage,
   setTotalUsersCount,
-  toggleIsFetching
+  toggleIsFetching,
 })(UsersContainer)

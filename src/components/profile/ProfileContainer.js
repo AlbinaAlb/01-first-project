@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react'
 import Profile from './Profile'
-import * as axios from 'axios'
 import { connect } from 'react-redux'
 import { setUserProfile } from '../../redux/profile-reducer'
 import { useParams } from 'react-router-dom'
+import { usersAPI } from '../../api/api'
+
 
 function ProfileContainer(props) {
   const params = useParams()
   //хук принимает колбэк и массив 'зависимостей', при изменении этих зависимостей будет вызываться колбэк (чтобы ф-я вызвалась один раз при загрузке страницы)
   useEffect(() => {
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0//profile/${
-          params.userId || 2
-        }`
-      )
+    usersAPI.profile(params.userId)
       .then((response) => {
         //тогда добавляем данные с сервера (которые теперь находятся в response), в reducer под названием setUserProfile
         //найти в пропсах setUserProfile и добавить из response данные
