@@ -1,3 +1,5 @@
+import { usersAPI } from '../api/api'
+
 //action types
 const ADD_POST_TO_STATE = 'ADD-POST-TO-STATE'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
@@ -10,7 +12,7 @@ let initialState = {
     { id: 2, message: "It's my first post", likesCount: '20 likes' },
   ],
   newPostText: '',
-  profile: null
+  profile: null,
 }
 
 //преобразование state
@@ -38,15 +40,15 @@ const profileReducer = (state = initialState, action) => {
       }
     }
     //если тип экшена SET_USER_PROFILE, то мы вернем копию стейта в которой поменяем профайл на профайл из экшена
-    case SET_USER_PROFILE:{
-      return {...state, profile: action.profile}
+    case SET_USER_PROFILE: {
+      return { ...state, profile: action.profile }
     }
     default:
       return state
   }
 }
 
-//ActionCreator - это ф-я,которая возвращает объект action: { type: SET_USER_PROFILE, profile }. 
+//ActionCreator - это ф-я,которая возвращает объект action: { type: SET_USER_PROFILE, profile }.
 //action это объект в котоом инкапсулированы все данные,чтобы редюсер получил этот action и примнил изменения на свой стейт
 //SET_USER_PROFILE это навание действия - что нужно сделать, profile - где нужно сделать
 export const addPostActionCreator = () => ({ type: ADD_POST_TO_STATE })
@@ -55,5 +57,14 @@ export const updateNewPostTextActionCreator = (text) => ({
   newText: text,
 })
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
+
+//ThunkCreator
+export const getUserProfile = (userId) => (dispatch) => {
+  usersAPI.getProfile(userId).then((response) => {
+    //тогда добавляем данные с сервера (которые теперь находятся в response), в reducer под названием setUserProfile
+    //найти в пропсах экшион - setUserProfile и добавить из response данные в него, чтобы отправить
+    dispatch(setUserProfile(response.data))
+  })
+}
 
 export default profileReducer

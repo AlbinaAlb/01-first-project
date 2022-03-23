@@ -1,3 +1,4 @@
+//DAL - посредник между бизнесом и сервером
 import axios from 'axios'
 
 const instance = axios.create({
@@ -5,7 +6,7 @@ const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.0/',
   //Чтобы браузер передал вместе с запросом куки и HTTP-авторизацию
   headers: {
-    'API-KEY': 'b1775b2f-c3a5-4509-8dc9-90b5629de7c3',
+    'API-KEY': '9d9e0ff7-a896-4463-afc9-e985160239ce',
   },
 })
 
@@ -25,10 +26,13 @@ export const usersAPI = {
   unfollow(userId) {
     return instance.delete(`follow/${userId}`)
   },
-  header() {
-    return instance.get(`auth/me`)
-  },
-  profile(userId) {
+  getProfile(userId) {
     return instance.get(`profile/${userId || 2}`)
+  },
+}
+
+export const authAPI = {
+  me() {
+    return instance.get(`auth/me`)
   },
 }

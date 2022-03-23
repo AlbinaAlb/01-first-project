@@ -1,10 +1,8 @@
-import React from "react";
+import React from 'react'
 import styles from './users.module.scss'
 import { NavLink } from 'react-router-dom'
-import { usersAPI } from '../../api/api'
 
-
-let Users = (props) =>{
+let Users = (props) => {
   //кол-во юзеров на странице
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
 
@@ -57,31 +55,13 @@ let Users = (props) =>{
                   //чтобы на кнопку нельзя было нажать много раз
                   //если в массиве хоть один id равный id пользователя, то тогда disabled=true
                   disabled={props.followingInProgress.some((id) => id === u.id)}
-                  onClick={() => {
-                    props.toggleFollowingProgress(true, u.id)
-                    usersAPI.unfollow(u.id).then((response) => {
-                      //если подписка произошла тогда диспатчим колбэк follow в редюсер
-                      if (response.data.resultCode === 0) {
-                        props.unfollow(u.id)
-                      }
-                      props.toggleFollowingProgress(false, u.id)
-                    })
-                    props.unfollow(u.id)
-                  }}>Unfollow</button>
+                  onClick={() => {props.unfollow(u.id) }}>
+                  Unfollow
+                </button>
               ) : (
                 <button
                   disabled={props.followingInProgress.some((id) => id === u.id)}
-                  onClick={() => {
-                    props.toggleFollowingProgress(true, u.id)
-                    usersAPI.follow(u.id).then((response) => {
-                      //если подписка произошла тогда диспатчим колбэк follow в редюсер
-                      if (response.data.resultCode === 0) {
-                        props.follow(u.id)
-                      }
-                      props.toggleFollowingProgress(false, u.id)
-                    })
-                  }}
-                >
+                  onClick={() => { props.follow(u.id) }}>
                   Follow
                 </button>
               )}
