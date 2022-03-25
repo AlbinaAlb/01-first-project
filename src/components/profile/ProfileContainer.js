@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { getUserProfile } from '../../redux/profile-reducer'
 import { useParams } from 'react-router-dom'
 import {useDispatch} from "react-redux";
-
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
+import { compose } from 'redux'
 
 function ProfileContainer(props) {
   // когда будем писать на хуках, будет юзаться для того чтоб диспатчить экшины и thunk в стор из функциональных компонетов
@@ -21,8 +22,13 @@ function ProfileContainer(props) {
 //когда ф-я возвращает объект нужно ставить круглые скобки.
 //данная ф-я из стейта profile
 let mapStateToProps = (state) => ({
-  profile: state.profilePage.profile,
+  profile: state.profilePage.profile
 })
 
-// первым параметром передаем ф-ю которая возвращает объект,а вторым ActionCreator
-export default connect(mapStateToProps, { getUserProfile })(ProfileContainer)
+//compose ф-я, которая позволяет получить результат одной функци, а потом обработать его при помощи другой функции
+//первые скобки это вызов ф-и, вторые скобки это ф-я которую вернул первый вызов compose
+export default compose(
+  connect(mapStateToProps, { getUserProfile }),
+  //вызываем HOC и кладем ему в параметр Profile
+  withAuthRedirect
+)(ProfileContainer)

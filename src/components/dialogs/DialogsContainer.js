@@ -4,6 +4,9 @@ import {
   updateNewMessageTextActionCreator,
 } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
+import {withAuthRedirect} from '../../hoc/withAuthRedirect'
+import { compose } from 'redux'
+
 
 //ф-я мапит стейт на пропсы (превращает часть стейта в пропсы)
 //настраивает свойства,которые мы берем из стейта
@@ -27,8 +30,11 @@ let mapDispatchToProps = (dispatch) => {
   }
 }
 
-//Dialogs законектили к стору
-//connect настраивает контейнерный компонент, который служит оберткой для презентационного-чистого компонента Dialogs
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
-
-export default DialogsContainer
+//compose ф-я, которая позволяет получить результат одной функци, а потом обработать его при помощи другой функции
+//первые скобки это вызов ф-и, вторые скобки это ф-я которую вернул первый вызов compose
+export default compose(
+  //connect настраивает контейнерный компонент
+  connect(mapStateToProps, mapDispatchToProps),
+  //вызываем HOC и кладем ему в параметр Dialogs
+  withAuthRedirect
+)(Dialogs)
