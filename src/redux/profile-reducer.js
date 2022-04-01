@@ -1,9 +1,10 @@
-import { usersAPI } from '../api/api'
+import { usersAPI, profileAPI } from '../api/api'
 
 //action types
 const ADD_POST_TO_STATE = 'ADD-POST-TO-STATE'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
+const SET_STATUS = 'SET_STATUS'
 
 //объект со стартовыми данными. В случае если в state у profileReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
@@ -13,6 +14,7 @@ let initialState = {
   ],
   newPostText: '',
   profile: null,
+  status: '',
 }
 
 //преобразование state
@@ -43,6 +45,9 @@ const profileReducer = (state = initialState, action) => {
     case SET_USER_PROFILE: {
       return { ...state, profile: action.profile }
     }
+    case SET_STATUS: {
+      return { ...state, status: action.status }
+    }
     default:
       return state
   }
@@ -57,6 +62,7 @@ export const updateNewPostTextActionCreator = (text) => ({
   newText: text,
 })
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
+export const setStatus = (status) => ({ type: SET_STATUS, status })
 
 //ThunkCreator
 export const getUserProfile = (userId) => (dispatch) => {
@@ -64,6 +70,19 @@ export const getUserProfile = (userId) => (dispatch) => {
     //тогда добавляем данные с сервера (которые теперь находятся в response), в reducer под названием setUserProfile
     //найти в пропсах экшион - setUserProfile и добавить из response данные в него, чтобы отправить
     dispatch(setUserProfile(response.data))
+  })
+}
+export const getStatus = (userId) => (dispatch) => {
+  profileAPI.getStatus(userId).then((response) => {
+    dispatch(setStatus(response.data))
+  })
+}
+export const updateStatus = (status) => (dispatch) => {
+  profileAPI.updateStatus(status).then((response) => {
+    //если ошибки нет(ошибка в случае 1) тогда показать статус
+    if(response.data.resultCode === 0){
+      dispatch(setStatus(status))
+    }
   })
 }
 

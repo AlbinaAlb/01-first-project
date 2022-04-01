@@ -27,8 +27,25 @@ export const usersAPI = {
     return instance.delete(`follow/${userId}`)
   },
   getProfile(userId) {
-    return instance.get(`profile/${userId || 2}`)
+    return profileAPI.getProfile(userId)
   },
+}
+
+export const profileAPI = {
+  getProfile(userId) {
+    return instance.get(`profile/${userId}`)
+  },
+  //получить статус
+  getStatus(userId) {
+    return instance.get(`profile/status/${userId}`)
+  },
+  //редактировать статус
+  updateStatus(status) {
+    //передаем на сервер объект, который имеет статус и он будет равен тому новому тексту, который введет пользователь
+    return instance.put(`profile/status`, {
+      status: status,
+    })
+  }
 }
 
 export const authAPI = {
