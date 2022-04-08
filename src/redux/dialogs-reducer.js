@@ -1,5 +1,4 @@
 const ADD_MESSAGE_TO_STATE = 'ADD-MESSAGE-TO-STATE'
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 
 //объект со стартовыми данными. В случае если в state у dialogsReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
@@ -17,24 +16,15 @@ let initialState = {
     { id: 3, message: 'Thank you!' },
     { id: 4, message: 'Lorem, ipsum dolor.' },
   ],
-  newMessageText: '',
 }
 
 const dialogsReducer = (state = initialState, action) => {
   //метод для создания нового сообщения в диалогах
   switch (action.type) {
-    case UPDATE_NEW_MESSAGE_TEXT:
-      //создаем новый объект stateCopy, копируем все значения из старого state, но массив messages будет новый - т.е. будет меняться
-      return  {
-        ...state,
-        //меняем в state newMessageText на введенное значение, которое прийдет в эту функцию через newText
-        newMessageText: action.newText,
-      }
     case ADD_MESSAGE_TO_STATE:
-      let body = state.newMessageText
+      let body = action.payload.newMessageText
       return {
         ...state,
-        newMessageText: '',
         messages: [...state.messages, { id: 5, message: body }],
       }
     default:
@@ -42,9 +32,10 @@ const dialogsReducer = (state = initialState, action) => {
   }
 }
 
-export const addMessageActionCreator = () => ({ type: ADD_MESSAGE_TO_STATE })
-export const updateNewMessageTextActionCreator = (text) => ({
-  type: UPDATE_NEW_MESSAGE_TEXT,
-  newText: text,
+export const addMessageActionCreator = (newMessageText) => ({
+  type: ADD_MESSAGE_TO_STATE,
+  payload: {
+    newMessageText,
+  },
 })
 export default dialogsReducer

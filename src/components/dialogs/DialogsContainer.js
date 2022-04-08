@@ -1,8 +1,5 @@
 import { connect } from 'react-redux'
-import {
-  addMessageActionCreator,
-  updateNewMessageTextActionCreator,
-} from '../../redux/dialogs-reducer'
+import {addMessageActionCreator} from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
 import {withAuthRedirect} from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
@@ -20,13 +17,9 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     //достаем из textarea введенное в него значение
-    sendMessage: () => {
-      dispatch(addMessageActionCreator())
-    },
-    //изменения с новым текстом, который ввели в textarea идут в state
-    updateNewMessageBody: (body) => {
-      dispatch(updateNewMessageTextActionCreator(body))
-    },
+    sendMessage: (newMessageText) => {
+      dispatch(addMessageActionCreator(newMessageText))
+    }
   }
 }
 
