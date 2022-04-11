@@ -1,53 +1,60 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import loginFormSchema from '../FormValidation/LoginFormSchema';
+import FormSchema from '../FormValidation/Validators'
+import styles from '../FormValidation/Validators.module.scss'
+import { useFormik } from 'formik'
 
-const Login = () => (
-  <div>
-    <h1>Login</h1>
-    <Formik
-      initialValues={{ email: '', password: '', rememberMe: false }}
-      validate={(values) => {
-        const errors = {}
-        //если в эмейле ничего не введено, то вывести Required под ним
-        //иначе проверить чтоб были введены буквы, собачка, точка, текст, если не верно то 'Invalid email address'
-        if (!values.email) {
-          errors.email = 'Required'
-        } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-          errors.email = 'Invalid email address'
-        }
-        return errors
-      }}
-      onSubmit={(values) => {
-        console.log(values)
-      }}
-      //опора для автоматической проверки вашей формы на основе объекта Yup.
-      validationSchema={loginFormSchema}
-    >
-      {() => (
-        <Form>
-          <div>
-            <Field type={'text'} name={'email'} placeholder={'e-mail'} />
-          </div>
-          <ErrorMessage name="email" component="div" />
-
-          <div>
-            <Field type={'password'} name={'password'} placeholder={'password'}
-            />
-          </div>
-          <ErrorMessage name="password" component="div" />
-
-          <div>
-            <Field type={'checkbox'} name={'rememberMe'} />
-            <label htmlFor={'rememberMe'}> remember me </label>
-          </div>
-
-          <button type={'submit'}>Login</button>
-        </Form>
-      )}
-    </Formik>
-  </div>
-)
+const Login = (props) => {
+   const formik = useFormik({
+     initialValues: {
+       email: '',
+       password: '',
+       rememberMe: false,
+     },
+     onSubmit: props.onSubmit,
+     validationSchema: FormSchema
+   })
+   return (
+     <div>
+       <h1>Login</h1>
+       <form onSubmit={formik.handleSubmit}>
+         <div className={ styles.formControl + ' ' + (formik.errors.email ? styles.error : '')}>
+           <input
+             id="email"
+             name="email"
+             type="text"
+             onChange={formik.handleChange}
+             value={formik.values.email}
+             placeholder={'e-mail'}
+           />
+           <div>{formik.errors.email && <span>{formik.errors.email}</span>}</div>
+         </div>
+         <div className={styles.formControl + ' ' + (formik.errors.password ? styles.error : '')}>
+           <input
+             id="password"
+             name="password"
+             type="password"
+             onChange={formik.handleChange}
+             value={formik.values.password}
+             placeholder={'password'}
+           />
+           <div>
+             {formik.errors.password && <span>{formik.errors.password}</span>}
+           </div>
+         </div>
+         <div>
+           <input
+             id="rememberMe"
+             name="rememberMe"
+             type="checkbox"
+             onChange={formik.handleChange}
+           />
+           <label htmlFor={'rememberMe'}>remember me</label>
+         </div>
+         <div>
+           <button type="submit">Login</button>
+         </div>
+       </form>
+     </div>
+   )
+}
 
 export default Login

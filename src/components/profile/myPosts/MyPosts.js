@@ -1,6 +1,7 @@
 import React from 'react'
 import s from './MyPosts.module.scss'
 import Post from './post/Post'
+import AddNewPostForm from '../AddNewPostForm/AddNewPostForm'
 
 //тупой компонент,запускает ф-ю которая в него пришла addPost и в эту функцию передает text
 const MyPosts = (props) => {
@@ -14,34 +15,17 @@ const MyPosts = (props) => {
     />
   ))
 
-  //метод createRef у реакта - создает ссылку на какой-то элемент и привязываем к textarea, а потом можем к этой ссылке обращаться
-  let newPostElement = React.createRef()
-
-  //при клике на кнопку ызываетcя колбэк, который берется из MyPostsContainer и оттуда добавляет пост
-  let onAddPost = () => {
-    props.addPost()
-  }
-
-  //когда нажимаем на клавиши в textarea
-  let onPostChange = () => {
-    //достаем из textarea введенное в него значение
-    let text = newPostElement.current.value
-    //и вызываетcя колбэк,который берется из MyPostsContainer, где параметром ф-я onPostChange
-    props.updateNewPostText(text)
+  //при клике на кнопку вызываетcя колбэк, который берется из MyPostsContainer и оттуда добавляет пост
+  let onAddPost = (values) => {
+    props.addPost(values.newPostText)
   }
 
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
-      <div className={s.postsBlock__addPost}>
-        <textarea
-          onChange={onPostChange}
-          ref={newPostElement}
-          value={props.newPostText}
-        />
-        <br />
-        <button onClick={onAddPost}>Add post</button>
-      </div>
+      {/* rкогда в форме будет сабмит, т.е. когда форма соберет данные, то вызвать колбэк  */}
+      <AddNewPostForm onSubmit={onAddPost} />
+
       <div className={s.postsBlock__posts}>{postsElement}</div>
     </div>
   )

@@ -1,8 +1,5 @@
 import { connect } from 'react-redux'
-import {
-  addPostActionCreator,
-  updateNewPostTextActionCreator,
-} from '../../../redux/profile-reducer'
+import {addPostActionCreator} from '../../../redux/profile-reducer'
 import MyPosts from './MyPosts'
 
 //ф-я мапит стейт на пропсы (превращает часть стейта в пропсы)
@@ -18,12 +15,8 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     //ф-я добавляет пост
-    addPost: () => {
-      dispatch(addPostActionCreator())
-    },
-    //из MyPosts сюда попадает текст введенный в textarea и фомируется action, который диспатчится в store
-    updateNewPostText: (text) => {
-      dispatch(updateNewPostTextActionCreator(text))
+    addPost: (newPostText) => {
+      dispatch(addPostActionCreator(newPostText))
     },
   }
 }
