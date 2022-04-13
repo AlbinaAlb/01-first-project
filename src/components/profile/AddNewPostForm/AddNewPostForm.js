@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import FormSchema from '../../FormValidation/Validators'
+import {PostSchema} from '../../FormValidation/Validators'
 import styles from '../../FormValidation/Validators.module.scss'
 
 const AddNewPostForm = (props) => {
@@ -8,7 +8,7 @@ const AddNewPostForm = (props) => {
       newPostText: '',
     },
     onSubmit: props.onSubmit,
-    validationSchema: FormSchema
+    validationSchema: PostSchema,
   })
   //достаем из формика ошибку
   const hasError = formik.errors.newPostText

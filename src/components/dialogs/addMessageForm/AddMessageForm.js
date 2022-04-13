@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import FormSchema from '../../FormValidation/Validators'
+import { MessageSchema } from '../../FormValidation/Validators'
 import styles from '../../FormValidation/Validators.module.scss'
 
 const AddMessageForm = (props) => {
@@ -8,7 +8,7 @@ const AddMessageForm = (props) => {
       newMessageText: '',
     },
     onSubmit: props.onSubmit,
-    validationSchema: FormSchema,
+    validationSchema: MessageSchema,
   })
   const hasError = formik.errors.newMessageText
   return (
