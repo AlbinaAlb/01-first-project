@@ -7,7 +7,13 @@ const Header = (props) =>{
       <img src="https://ecom.ngo/resource/site/images/logo-white.svg" alt="" />
       <div className={s.header__loginBlock}>
         {/* если авторизованы, то показать ваш логин, иначе Login */}
-        {props.isAuth ? props.login : <NavLink to={'/login'}>Login</NavLink>}
+        {props.isAuth ? (
+          <div>
+            {props.login} - <button onClick={props.logout}>Log out</button>
+          </div>
+        ) : (
+          <NavLink to={'/login'}>Login</NavLink>
+        )}
       </div>
     </header>
   )

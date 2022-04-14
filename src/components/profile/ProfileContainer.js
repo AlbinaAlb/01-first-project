@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { getUserProfile, getStatus, updateStatus } from '../../redux/profile-reducer'
 import { useParams } from 'react-router-dom'
 import {useDispatch} from "react-redux";
-import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
 
 function ProfileContainer(props) {
