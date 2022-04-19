@@ -11,7 +11,7 @@ function ProfileContainer(props) {
   const dispatch = useDispatch()
   const params = useParams()
    if (!params.userId) {
-     params.userId = 11
+     params.userId = props.autorizedUserId
    }
   //хук принимает колбэк и массив 'зависимостей', при изменении этих зависимостей будет вызываться колбэк (чтобы ф-я вызвалась один раз при загрузке страницы)
   useEffect(() => {
@@ -36,6 +36,8 @@ function ProfileContainer(props) {
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
+  autorizedUserId: state.auth.userId,
+  isAuth: state.auth.isAuth,
 })
 
 //compose ф-я, которая позволяет получить результат одной функци, а потом обработать его при помощи другой функции

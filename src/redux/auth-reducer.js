@@ -1,5 +1,4 @@
 import { authAPI } from '../api/api'
-
 const SET_USER_DATA = 'SET_USER_DATA'
 
 //объект со стартовыми данными. Эти данные придут из action
@@ -45,13 +44,14 @@ export const getAuthUserData = () => (dispatch) => {
     })
   }
   //thunk для логинизации
-export const login = (email, password, rememberMe) => (dispatch, getState) => {
+export const login = (email, password, rememberMe, setStatus) => (dispatch) => {
 // const isAuthenticated = selectors.isAuthenticated(getState())
-
   authAPI.login(email, password, rememberMe).then((response) => {
     //если в дате resultCode = 0, значит мы залогинены на сервере и тогда залогиниться на нашем сайте
     if (response.data.resultCode === 0) {
       dispatch(getAuthUserData())
+    } else{
+      setStatus({ error: response.data.messages })
     }
   })
 }

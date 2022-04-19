@@ -16,10 +16,18 @@ const Login = (props) => {
       password: '46265642aA*',
       rememberMe: false,
     },
-    onSubmit: (formData) =>
-      dispatch(login(formData.email, formData.password, formData.rememberMe)),
-    validationSchema: LoginSchema
+    onSubmit: (formData, {setStatus}) =>
+      dispatch(login(formData.email, formData.password, formData.rememberMe, setStatus)
+      ),
+    validationSchema: LoginSchema,
   })
+
+  let apiErrors 
+  if (formik.status) {
+    apiErrors = formik.status.error.map((item, index) => (
+      <span key={index}>{item}</span>
+    ))
+  }
 //если пользователь авторизован, то вместо страницы логин показывать страницу профиля
   if (isAuth) {
     return <Navigate to={'/profile'} />
@@ -62,10 +70,10 @@ const Login = (props) => {
           />
           <label htmlFor={'rememberMe'}>remember me</label>
         </div>
-        <div></div>
-        <button type="submit">
-          Login
-        </button>
+       <div> {apiErrors ? <div className={styles.formSummaryError}>{apiErrors}</div> : null}</div>
+        <div>
+          <button type="submit">Login</button>
+        </div>
       </form>
     </div>
   )
