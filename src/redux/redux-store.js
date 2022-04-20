@@ -5,6 +5,7 @@ import dialogsReducer from './dialogs-reducer'
 import sidebarReducer from './sidebar-reducer'
 import usersReducer from './users-reducer'
 import authReducer from './auth-reducer'
+import appReducer from './app-reducer'
 import thunkMiddleware from 'redux-thunk'
 
 //объединить в этой ф-и все редюсеры (профиль, диалогии, сайдбар)
@@ -15,6 +16,7 @@ let reducers = combineReducers({
   sidebar: sidebarReducer,
   usersPage: usersReducer,
   auth: authReducer,
+  app: appReducer,
 })
 //createStore создает внутри себя store со свойствами редюсерами
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));

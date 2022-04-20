@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Profile from './Profile'
 import { connect } from 'react-redux'
 import { getUserProfile, getStatus, updateStatus } from '../../redux/profile-reducer'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { useParams } from 'react-router-dom'
 import {useDispatch} from "react-redux";
 import { compose } from 'redux'
@@ -45,5 +46,5 @@ let mapStateToProps = (state) => ({
 export default compose(
   connect(mapStateToProps, { getUserProfile, getStatus, updateStatus }),
   //вызываем HOC и кладем ему в параметр Profile
-  //withAuthRedirect
+  withAuthRedirect
 )(ProfileContainer)

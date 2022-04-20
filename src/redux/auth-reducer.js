@@ -34,7 +34,7 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
 
 //ThunkCreator
 export const getAuthUserData = () => (dispatch) => {
-    authAPI.me().then((response) => {
+    return authAPI.me().then((response) => {
       //если в дате resultCode = 0, значит мы залогинены на сервере
       if (response.data.resultCode === 0) {
         let { id, email, login } = response.data.data
