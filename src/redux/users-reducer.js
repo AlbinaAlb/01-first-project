@@ -87,14 +87,14 @@ export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFe
 export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
 
 //ThunkCreator это функция, которая может что-то принимать и возвращает ф-ю thunk
-export const getUsers = (currentPage, pageSize) => {
+export const requestUsers = (page, pageSize) => {
   //ф-я thunk, которая получает пользователей
   return (dispatch) => {
     //когда запрос идет на сервер
     dispatch(toggleIsFetching(true))
-    dispatch(setCurrentPage(currentPage))
+    dispatch(setCurrentPage(page))
     //запрос на сервер и получение данных оттуда и вставкой выбранной страницы и размер кол-ва юзеров на странице
-    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+    usersAPI.getUsers(page, pageSize).then((data) => {
       //когда пришел ответ с сервера
       dispatch(toggleIsFetching(false))
       //получить всех пользователей с сервера

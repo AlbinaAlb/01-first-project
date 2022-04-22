@@ -33,7 +33,6 @@ function ProfileContainer(props) {
 }
 
 //когда ф-я возвращает объект нужно ставить круглые скобки.
-//данная ф-я из стейта profile
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
@@ -42,7 +41,6 @@ let mapStateToProps = (state) => ({
 })
 
 //compose ф-я, которая позволяет получить результат одной функци, а потом обработать его при помощи другой функции
-//первые скобки это вызов ф-и, вторые скобки это ф-я которую вернул первый вызов compose
 export default compose(
   connect(mapStateToProps, { getUserProfile, getStatus, updateStatus }),
   //вызываем HOC и кладем ему в параметр Profile

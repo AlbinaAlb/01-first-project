@@ -6,7 +6,7 @@ import { login } from '../../redux/auth-reducer'
 import * as selectors from '../../redux/selectors'
 import { Navigate } from 'react-router-dom'
 
-const Login = (props) => {
+const Login = () => {
   const dispatch = useDispatch()
   const isAuth = useSelector(selectors.isAuthenticated)
 
