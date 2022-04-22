@@ -6,20 +6,28 @@ import {
   unfollow,
   setCurrentPage,
   toggleFollowingProgress,
-  getUsers,
+  requestUsers,
 } from '../../redux/users-reducer'
 import Preloader from '../common/preloader/Preloader'
 import Users from './Users'
+import {
+  getUsers,
+  getPageSize,
+  getTotalUsersCount,
+  getCurrentPage,
+  getIsFetching,
+  getFollowingInProgress
+} from '../../redux/selectors/users-selectors'
 
 //компонент вызывает колбэк, который делает AJAX запрос на сервер
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    this.props.requestUsers(this.props.currentPage, this.props.pageSize);
   }
 
   //по клику на кнопку
   onPageChanged = (pageNumber) => {
-    this.props.getUsers(pageNumber, this.props.pageSize)
+    this.props.requestUsers(pageNumber, this.props.pageSize)
   }
 
   render() {
@@ -44,15 +52,25 @@ class UsersContainer extends React.Component {
 
 //state берется из redux-store, который в свою очередь берется из users-reducer
 //данная ф-я из стейта достает разные данные
-let mapStateToProps = (state) => {
+/* let mapStateToProps = (state) => {
   return {
-    //из стейта достаем usersPage в котором все юзеры
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
     followingInProgress: state.usersPage.followingInProgress,
+  }
+} */
+
+let mapStateToProps = (state) => {
+  return {
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
   }
 }
 
@@ -62,5 +80,5 @@ export default compose(
   unfollow,
   setCurrentPage,
   toggleFollowingProgress,
-  getUsers,
+  requestUsers,
 }))(UsersContainer)
