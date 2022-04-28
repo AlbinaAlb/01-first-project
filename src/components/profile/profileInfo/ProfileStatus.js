@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React from 'react'
 
 class ProfileStatus extends React.Component {
   //это обычное свойство,которое будет нашим локальным стейтом
@@ -42,7 +42,6 @@ class ProfileStatus extends React.Component {
   render() {
     return (
       <div>
-        {/* если editMode = false, тогда  */}
         {!this.state.editMode && (
           <div>
             <span onDoubleClick={this.activateEditMode}>
@@ -66,3 +65,4 @@ class ProfileStatus extends React.Component {
 }
 
 export default ProfileStatus
+ */
