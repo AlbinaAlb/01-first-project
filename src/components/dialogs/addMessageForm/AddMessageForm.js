@@ -1,6 +1,6 @@
 import { useFormik } from 'formik'
-import { MessageSchema } from '../../FormValidation/Validators'
-import styles from '../../FormValidation/Validators.module.scss'
+import { MessageSchema } from '../../../FormValidation/Validators'
+import styles from '../../../FormValidation/Validators.module.scss'
 
 const AddMessageForm = (props) => {
   const formik = useFormik({

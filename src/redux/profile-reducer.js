@@ -60,25 +60,24 @@ export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status) => ({ type: SET_STATUS, status })
 
 //ThunkCreator
-export const getUserProfile = (userId) => (dispatch) => {
-  usersAPI.getProfile(userId).then((response) => {
-    //тогда добавляем данные с сервера (которые теперь находятся в response), в reducer под названием setUserProfile
-    //найти в пропсах экшион - setUserProfile и добавить из response данные в него, чтобы отправить
-    dispatch(setUserProfile(response.data))
-  })
+export const getUserProfile = (userId) => async (dispatch) => {
+  const response = await usersAPI.getProfile(userId)
+  //тогда добавляем данные с сервера (которые теперь находятся в response), в reducer под названием setUserProfile
+  //найти в пропсах экшион - setUserProfile и добавить из response данные в него, чтобы отправить
+  dispatch(setUserProfile(response.data))
 }
-export const getStatus = (userId) => (dispatch) => {
-  profileAPI.getStatus(userId).then((response) => {
-    dispatch(setStatus(response.data))
-  })
+
+export const getStatus = (userId) => async (dispatch) => {
+  const response = await profileAPI.getStatus(userId)
+  dispatch(setStatus(response.data))
 }
-export const updateStatus = (status) => (dispatch) => {
-  profileAPI.updateStatus(status).then((response) => {
-    //если ошибки нет(ошибка в случае 1) тогда показать статус
-    if(response.data.resultCode === 0){
-      dispatch(setStatus(status))
-    }
-  })
+
+export const updateStatus = (status) => async (dispatch) => {
+  const response = await profileAPI.updateStatus(status)
+  //если ошибки нет(ошибка в случае 1) тогда показать статус
+  if (response.data.resultCode === 0) {
+    dispatch(setStatus(status))
+  }
 }
 
 export default profileReducer

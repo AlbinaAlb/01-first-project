@@ -1,6 +1,6 @@
 import { useFormik } from 'formik'
-import {PostSchema} from '../../FormValidation/Validators'
-import styles from '../../FormValidation/Validators.module.scss'
+import {PostSchema} from '../../../FormValidation/Validators'
+import styles from '../../../FormValidation/Validators.module.scss'
 
 const AddNewPostForm = (props) => {
   const formik = useFormik({

@@ -1,5 +1,5 @@
-import {LoginSchema} from '../FormValidation/Validators'
-import styles from '../FormValidation/Validators.module.scss'
+import {LoginSchema} from '../../FormValidation/Validators'
+import styles from '../../FormValidation/Validators.module.scss'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/auth-reducer'

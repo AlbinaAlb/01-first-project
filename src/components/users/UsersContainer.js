@@ -22,12 +22,15 @@ import {
 //компонент вызывает колбэк, который делает AJAX запрос на сервер
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+    //с помощью деструктуризации достаем из пропсов currentPage и pageSize
+    const { currentPage, pageSize } = this.props
+    this.props.requestUsers(currentPage, pageSize)
   }
 
   //по клику на кнопку
   onPageChanged = (pageNumber) => {
-    this.props.requestUsers(pageNumber, this.props.pageSize)
+    const { pageSize } = this.props
+    this.props.requestUsers(pageNumber, pageSize)
   }
 
   render() {
@@ -52,17 +55,6 @@ class UsersContainer extends React.Component {
 
 //state берется из redux-store, который в свою очередь берется из users-reducer
 //данная ф-я из стейта достает разные данные
-/* let mapStateToProps = (state) => {
-  return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
-  }
-} */
-
 let mapStateToProps = (state) => {
   return {
     users: getUsers(state),

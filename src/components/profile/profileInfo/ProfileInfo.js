@@ -2,26 +2,23 @@ import s from './ProfileInfo.module.scss'
 import Preloader from '../../common/preloader/Preloader'
 import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({ profile, status, updateStatus }) => {
   //если профайла нет
-if(!props.profile) {
-  return <Preloader />
-}
+  if (!profile) {
+    return <Preloader />
+  }
 
   return (
     <div>
-      {/*  <div className={s.profileImg}>
+        <div className={s.profileImg}>
         <img
           src="https://cs8.pikabu.ru/post_img/big/2016/03/29/6/1459241134114051877.jpg"
           alt=""
         />
-      </div> */}
+      </div> 
       <div className={s.descriptionBlock}>
-        <img src={props.profile.photos.large} alt="" />
-        <ProfileStatusWithHooks
-          status={props.status}
-          updateStatus={props.updateStatus}
-        />
+        <img src={profile.photos.large} alt="" />
+        <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
       </div>
     </div>
   )
