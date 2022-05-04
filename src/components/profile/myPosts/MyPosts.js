@@ -4,7 +4,7 @@ import Post from './post/Post'
 import AddNewPostForm from '../AddNewPostForm/AddNewPostForm'
 
 //тупой компонент,запускает ф-ю которая в него пришла addPost и в эту функцию передает text
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
   //перебирам массив с постами, и создаем новый в виде jsx
   //'Post' это компонент,в который мы передаем пропcы (message, likesCount) из массива posts
   let postsElement = props.posts.map((p, index) => (
@@ -13,7 +13,7 @@ const MyPosts = (props) => {
       message={p.message}
       likesCount={p.likesCount}
     />
-  ))
+  )).reverse()
 
   //при клике на кнопку вызываетcя колбэк, который берется из MyPostsContainer и оттуда добавляет пост
   let onAddPost = (values) => {
@@ -29,6 +29,6 @@ const MyPosts = (props) => {
       <div className={s.postsBlock__posts}>{postsElement}</div>
     </div>
   )
-}
+})
 
 export default MyPosts
