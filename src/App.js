@@ -13,6 +13,10 @@ import Login from './components/login/Login'
 import { initializeApp } from './redux/app-reducer'
 import { connect } from 'react-redux'
 
+import store from './redux/redux-store'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+
 import { Routes, Route } from 'react-router-dom'
 import Preloader from './components/common/preloader/Preloader'
 
@@ -55,4 +59,15 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized
 })
 
-export default connect(mapStateToProps, { initializeApp })(App)
+let AppContainer =  connect(mapStateToProps, { initializeApp })(App)
+
+const MainJSApp = (props) =>{
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    </BrowserRouter>
+  )
+}
+export default MainJSApp
