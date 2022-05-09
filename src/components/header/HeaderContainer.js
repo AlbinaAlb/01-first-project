@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 import { connect } from 'react-redux'
-import { logout } from '../../FormValidation/auth-reducer'
+import { logout } from '../../redux/auth-reducer'
 import * as selectors from '../../redux/selectors'
 
 class HeaderContainer extends React.Component {

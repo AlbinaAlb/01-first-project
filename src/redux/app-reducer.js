@@ -1,5 +1,5 @@
 //Инициализация приложения (Приведение программы или устройства в состояние готовности к использованию)
-import { getAuthUserData } from '../FormValidation/auth-reducer'
+import { getAuthUserData } from './auth-reducer'
 const INITIALISED_SUCCESS = 'INITIALISED_SUCCESS'
 
 //объект со стартовыми данными. Эти данные придут из action
