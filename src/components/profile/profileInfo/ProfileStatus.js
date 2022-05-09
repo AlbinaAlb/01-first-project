@@ -1,4 +1,4 @@
-/* import React from 'react'
+import React from 'react'
 
 class ProfileStatus extends React.Component {
   //это обычное свойство,которое будет нашим локальным стейтом
@@ -65,4 +65,3 @@ class ProfileStatus extends React.Component {
 }
 
 export default ProfileStatus
- */
