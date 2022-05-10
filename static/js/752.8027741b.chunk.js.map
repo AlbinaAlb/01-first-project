@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/752.8027741b.chunk.js","mappings":"+IAQA,UANa,kBACT","sources":["components/news/News.js"],"sourcesContent":["//import s from './News.module.scss'\n\nconst News = () => (\n    <div>\n      News\n    </div>\n)\n\nexport default News"],"names":[],"sourceRoot":""}

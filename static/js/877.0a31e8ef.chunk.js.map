@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/877.0a31e8ef.chunk.js","mappings":"+IAQA,UANiB,kBACjB","sources":["components/settings/Settings.js"],"sourcesContent":["//import s from './Settings.module.scss'\n\nconst Settings = () => (\n<div>\n  Settings\n  </div>\n)\n\nexport default Settings\n"],"names":[],"sourceRoot":""}

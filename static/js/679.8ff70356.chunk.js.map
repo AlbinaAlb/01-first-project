@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/679.8ff70356.chunk.js","mappings":"+IAMA,UANgB,kBACd","sources":["components/friends/Friends.js"],"sourcesContent":["const Friends = () =>(\n  <div>\n    Hi friend\n  </div>\n  )\n\nexport default Friends"],"names":[],"sourceRoot":""}
