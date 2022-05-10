@@ -1,3 +1,15 @@
+.paginator {
+    margin: 10px;
+    cursor: pointer;
+    span:hover {
+      color: rgba(40, 133, 156, 0.767);
+    }
+}
+.pageNumber {
+    padding: 2px;
+}
 .selectedPage {
     font-weight: bold;
+      color: rgba(40, 133, 156, 0.767);
 }
+

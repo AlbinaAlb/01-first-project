@@ -1,5 +1,5 @@
 import React from 'react'
-import Paginator from '../common/Paginator/Paginator'
+import Paginator from '../common/paginator/Paginator'
 import User from './User'
 
 let Users = ({ currentPage, totalUsersCount, pageSize, onPageChanged, users, ...props }) => {
@@ -9,7 +9,7 @@ let Users = ({ currentPage, totalUsersCount, pageSize, onPageChanged, users, ...
       <Paginator
         currentPage={currentPage}
         onPageChanged={onPageChanged}
-        totalUsersCount={totalUsersCount}
+        totalItemsCount={totalUsersCount}
         pageSize={pageSize}
       />
       {/* карточка каждого пользователя */}
