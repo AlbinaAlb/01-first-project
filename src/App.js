@@ -6,9 +6,8 @@ import { initializeApp } from './redux/app-reducer'
 import { connect } from 'react-redux'
 
 import store from './redux/redux-store'
-import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, HashRouter } from 'react-router-dom'
 import Preloader from './components/common/preloader/Preloader'
 
 //Lazy loading
@@ -66,11 +65,12 @@ let AppContainer =  connect(mapStateToProps, { initializeApp })(App)
 
 const MainJSApp = (props) =>{
   return (
-    <BrowserRouter>
+    //HashRouter вместо BrowserRouter, для того чтобы можно было обновлять страницу, так как сервер через github
+    <HashRouter>
       <Provider store={store}>
         <AppContainer />
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 export default MainJSApp
