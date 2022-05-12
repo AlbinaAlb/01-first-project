@@ -4,6 +4,7 @@ import { usersAPI, profileAPI } from '../api/api'
 const ADD_POST_TO_STATE = 'ADD-POST-TO-STATE'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const SET_STATUS = 'SET_STATUS'
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
 //объект со стартовыми данными. В случае если в state у profileReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
@@ -42,6 +43,9 @@ const profileReducer = (state = initialState, action) => {
     case SET_STATUS: {
       return { ...state, status: action.status }
     }
+    //редюсер обработает этот тип экшена и в профайле поменяет фото
+    case SAVE_PHOTO_SUCCESS:
+      return { ...state, profile: { ...state.profile, photos: action.photos } }
     default:
       return state
   }
@@ -58,6 +62,7 @@ export const addPostActionCreator = (newPostText) => ({
 })
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 export const setStatus = (status) => ({ type: SET_STATUS, status })
+export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })
 
 //ThunkCreator
 export const getUserProfile = (userId) => async (dispatch) => {
@@ -77,6 +82,13 @@ export const updateStatus = (status) => async (dispatch) => {
   //если ошибки нет(ошибка в случае 1) тогда показать статус
   if (response.data.resultCode === 0) {
     dispatch(setStatus(status))
+  }
+}
+export const savePhoto = (file) => async (dispatch) => {
+  const response = await profileAPI.savePhoto(file)
+  //если ошибки нет(ошибка в случае 1) тогда передать фото из респонса редюсеру
+  if (response.data.resultCode === 0) {
+    dispatch(savePhotoSuccess(response.data.data.photos))
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './users.module.scss'
 import { NavLink } from 'react-router-dom'
+import userPhoto from '../../assets/images/msn-icon-24.png'
 
 const User = ({ user, followingInProgress, unfollow, follow }) => {
   return (
@@ -10,11 +11,7 @@ const User = ({ user, followingInProgress, unfollow, follow }) => {
           {/* ссылка на профайл определенного юзера */}
           <NavLink to={'/profile/' + user.id}>
             <img
-              src={
-                user.photos.small !== null
-                  ? user.photos.small
-                  : 'https://www.freeiconspng.com/uploads/msn-icon-24.png'
-              }
+              src={user.photos.small !== null ? user.photos.small : userPhoto}
               alt=""
               className={styles.userPhoto}
             />
