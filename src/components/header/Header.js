@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import s from './Header.module.scss'
+import stylesButton from '../button/Button.module.scss'
 
 const Header = (props) =>{
   return (
@@ -9,7 +10,8 @@ const Header = (props) =>{
         {/* если авторизованы, то показать ваш логин, иначе Login */}
         {props.isAuth ? (
           <div>
-            {props.login} - <button onClick={props.logout}>Log out</button>
+            {props.login} - <button onClick={props.logout} id='logout' className={stylesButton.button}>Log out</button>
+            <label htmlFor="logout">Unfollow</label>
           </div>
         ) : (
           <NavLink to={'/login'}>Login</NavLink>

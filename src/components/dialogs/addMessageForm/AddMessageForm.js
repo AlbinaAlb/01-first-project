@@ -1,6 +1,7 @@
 import { useFormik } from 'formik'
 import { MessageSchema } from '../../../FormValidation/Validators'
 import styles from '../../../FormValidation/Validators.module.scss'
+import stylesButton from '../../button/Button.module.scss'
 
 const AddMessageForm = (props) => {
   const formik = useFormik({
@@ -17,12 +18,9 @@ const AddMessageForm = (props) => {
       <div>
         <label htmlFor="newMessageText">Enter your message</label>
       </div>
-      <div
-        className={styles.formControl + ' ' + (hasError ? styles.error : '')}
-      >
+      <div className={styles.formControl + ' ' + (hasError ? styles.error : '')}>
         <textarea
           id="newMessageText"
-          name="newMessageText"
           type="textarea"
           //срабатывает при вводе значений в форму и сохраняет в формик, пока не будет нажата кнопка submit
           onChange={formik.handleChange}
@@ -30,7 +28,10 @@ const AddMessageForm = (props) => {
         />
         <div>{hasError && <span>{hasError}</span>}</div>
       </div>
-      <button type="submit">Submit</button>
+      <div>
+      <button type="submit" className={stylesButton.button}  id="submit"></button>
+      <label htmlFor="submit">Submit</label>
+      </div>
     </form>
   )
 }

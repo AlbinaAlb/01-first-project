@@ -1,6 +1,7 @@
 import { useFormik } from 'formik'
 import {PostSchema} from '../../../FormValidation/Validators'
 import styles from '../../../FormValidation/Validators.module.scss'
+import stylesButton from '../../button/Button.module.scss'
 
 const AddNewPostForm = (props) => {
   const formik = useFormik({
@@ -26,7 +27,8 @@ const AddNewPostForm = (props) => {
         <div>{hasError && <span>{hasError}</span>}</div>
       </div>
       <div>
-        <button type="submit">Add post</button>
+        <button type="submit" id='submit' className={stylesButton.button}>Add post</button>
+        <label htmlFor="submit">Add post</label>
       </div>
     </form>
   )

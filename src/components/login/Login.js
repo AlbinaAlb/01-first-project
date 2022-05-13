@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/auth-reducer'
 import * as selectors from '../../redux/selectors'
 import { Navigate } from 'react-router-dom'
+import stylesButton from '../button/Button.module.scss'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -72,7 +73,8 @@ const Login = () => {
         </div>
        <div> {apiErrors ? <div className={styles.formSummaryError}>{apiErrors}</div> : null}</div>
         <div>
-          <button type="submit">Login</button>
+          <button type="submit" id='login' className={stylesButton.button}></button>
+          <label htmlFor="login">Login</label>
         </div>
       </form>
     </div>

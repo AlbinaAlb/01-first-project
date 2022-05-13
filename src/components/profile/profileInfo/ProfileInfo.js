@@ -1,4 +1,5 @@
 import s from './ProfileInfo.module.scss'
+import stylesButton from '../../button/Button.module.scss'
 import Preloader from '../../common/preloader/Preloader'
 import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 import userPhoto from '../../../assets/images/cat.jpeg'
@@ -35,7 +36,8 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto }) => {
         {/* если isOwner(мы на своей странице) тогда показать инпут с выбором файла */}
         {isOwner && 
         <div>
-        <input type={'file'} onChange={onMainPhotoSelected} />
+        <input type={'file'} onChange={onMainPhotoSelected} id="file" className={stylesButton.button} />
+        <label htmlFor="file">Choose a photo</label>
         </div>}
         <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
       </div>

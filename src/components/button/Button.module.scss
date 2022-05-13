@@ -1,0 +1,27 @@
+.button {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.button + label {
+  padding: 3px 10px;
+  font-size: 1.05em;
+  font-weight: 500;
+  color: white;
+  background-color: rgba(40, 133, 156, 0.767);
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 3px 3px 8px 0 rgba(0,0,0,0.3);
+  margin: 2px  6px 5px 0;
+}
+
+.button:focus + label,
+.button + label:hover {
+  background-color: rgba(33, 108, 129, 0.767);
+  outline: rgba(33, 108, 129, 0.767) auto 5px;
+}

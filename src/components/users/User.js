@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './users.module.scss'
 import { NavLink } from 'react-router-dom'
 import userPhoto from '../../assets/images/msn-icon-24.png'
+import stylesButton from '../button/Button.module.scss'
 
 const User = ({ user, followingInProgress, unfollow, follow }) => {
   return (
@@ -20,25 +21,31 @@ const User = ({ user, followingInProgress, unfollow, follow }) => {
         <div>
           {user.followed ? (
             // внутри анонимной ф-и вызывается follow/unfollow, который приходит из ActionCreator c UsersContainer
-            <button
-              //чтобы на кнопку нельзя было нажать много раз
-              //если в массиве хоть один id равный id пользователя, то тогда disabled=true
-              disabled={followingInProgress.some((id) => id === user.id)}
-              onClick={() => {
-                unfollow(user.id)
-              }}
-            >
-              Unfollow
-            </button>
+            <span>
+              <button
+                //чтобы на кнопку нельзя было нажать много раз
+                //если в массиве хоть один id равный id пользователя, то тогда disabled=true
+                disabled={followingInProgress.some((id) => id === user.id)}
+                onClick={() => {
+                  unfollow(user.id)
+                }}
+                id="unfollow"
+                className={stylesButton.button}
+              ></button>
+              <label htmlFor="unfollow">Unfollow</label>
+            </span>
           ) : (
-            <button
-              disabled={followingInProgress.some((id) => id === user.id)}
-              onClick={() => {
-                follow(user.id)
-              }}
-            >
-              Follow
-            </button>
+            <span>
+              <button
+                disabled={followingInProgress.some((id) => id === user.id)}
+                onClick={() => {
+                  follow(user.id)
+                }}
+                id="follow"
+                className={stylesButton.button}
+              ></button>
+              <label htmlFor="follow">Follow</label>
+            </span>
           )}
         </div>
       </span>
