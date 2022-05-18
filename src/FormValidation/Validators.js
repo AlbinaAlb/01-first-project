@@ -5,11 +5,11 @@ const EMAIL_VALIDATION = Yup.string()
   .email('Invalid email format')
   //максимальная длина - 30 символов
   .max(30, 'Nice try, nobody has a first name that long')
-  .required('Required')
+  .required('Please, enter email')
 
 const PASSWORD_VALIDATION = Yup.string()
   .min(8, 'Must be longer than 8 characters')
-  .required('Required')
+  .required('Please, enter password')
 
 const NEW_POST_TEXT_VALIDATION = Yup.string()
   //максимальная длина - 1000 символов
@@ -19,6 +19,13 @@ const NEW_POST_TEXT_VALIDATION = Yup.string()
   const NEW_MESSAGE_TEXT_VALIDATION = Yup.string()
      .max(500, 'Must be less  than 500 characters')
      .required('Required')
+     
+ const FULL_NAME_VALIDATION = Yup.string()
+   .min(2, 'Must be longer than 2 characters')
+   .max(20, 'Must be less  than 20 characters')
+   //только буквы (латиница и кириллица) - и _
+   .matches(/^[а-яА-ЯёЁa-zA-Z-_]{1,20}$/, 'Only letters, dash and underscores must be used')
+   .required('Required')
 
 export const LoginSchema = Yup.object().shape({
   email: EMAIL_VALIDATION,
@@ -31,4 +38,8 @@ export const PostSchema = Yup.object().shape({
 
 export const MessageSchema = Yup.object().shape({
   newMessageText: NEW_MESSAGE_TEXT_VALIDATION,
+})
+
+export const ProfileDataSchema = Yup.object().shape({
+  fullName: FULL_NAME_VALIDATION
 })

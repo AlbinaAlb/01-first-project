@@ -7,12 +7,12 @@ const ProfileStatusWithHooks = (props) => {
   //Деструктурирующее присваивание : editMode = 0 элемент массива (false); setEditMode = 1 элемент (ф-я)
   let [editMode, setEditMode] = useState(false)
   //второй типа локальный стейт
-  let [status, setStatus] = useState(props.status)
+  let [status, setStatusAction] = useState(props.status)
 
   // [] чтобы useEffect запускался не всегда, а только один раз в момент когда компонент самый первый раз вмонтировался 
   //или при изменении зависимости в нем
   useEffect(() => {
-    setStatus(props.status)
+    setStatusAction(props.status)
   }, 
   //если статус при отрисовке будет другим, то эффект перезапустится
   [props.status])
@@ -29,14 +29,14 @@ const ProfileStatusWithHooks = (props) => {
 
 const onStatusChange = (e) => {
   //узнаем новое значение (e.currentTarget.value) и меняем статус в локальном стейте
-    setStatus(e.currentTarget.value)
+    setStatusAction(e.currentTarget.value)
 }
 
   return (
     <div>
       {!editMode && (
         <div>
-          <span onDoubleClick={activateEditMode}>{props.status || '---'}</span>
+         <b>Status:</b> <span onDoubleClick={activateEditMode}>{props.status || '---'}</span>
         </div>
       )}
       {editMode && (

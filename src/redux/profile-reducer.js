@@ -61,7 +61,7 @@ export const addPostActionCreator = (newPostText) => ({
   },
 })
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
-export const setStatus = (status) => ({ type: SET_STATUS, status })
+export const setStatusAction = (status) => ({ type: SET_STATUS, status })
 export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })
 
 //ThunkCreator
@@ -74,14 +74,14 @@ export const getUserProfile = (userId) => async (dispatch) => {
 
 export const getStatus = (userId) => async (dispatch) => {
   const response = await profileAPI.getStatus(userId)
-  dispatch(setStatus(response.data))
+  dispatch(setStatusAction(response.data))
 }
 
 export const updateStatus = (status) => async (dispatch) => {
   const response = await profileAPI.updateStatus(status)
   //если ошибки нет(ошибка в случае 1) тогда показать статус
   if (response.data.resultCode === 0) {
-    dispatch(setStatus(status))
+    dispatch(setStatusAction(status))
   }
 }
 export const savePhoto = (file) => async (dispatch) => {
@@ -89,6 +89,17 @@ export const savePhoto = (file) => async (dispatch) => {
   //если ошибки нет(ошибка в случае 1) тогда передать фото из респонса редюсеру
   if (response.data.resultCode === 0) {
     dispatch(savePhotoSuccess(response.data.data.photos))
+  }
+}
+export const saveProfile = (profile, setStatus) => async (dispatch, getState) => {
+  const userId = getState().auth.userId
+  const response = await profileAPI.saveProfile(profile)
+  //необходимо заново вызвать профиль, после обновления данных
+  if (response.data.resultCode === 0) {
+    dispatch(getUserProfile(userId))
+  } else {
+    setStatus({ error: response.data.messages })
+    return Promise.reject(response.data.messages)
   }
 }
 
