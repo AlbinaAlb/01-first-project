@@ -10,7 +10,8 @@ import stylesButton from '../button/Button.module.scss'
 const Login = () => {
   const dispatch = useDispatch()
   const isAuth = useSelector(selectors.isAuthenticated)
-
+  const captchaUrl = useSelector(selectors.isCaptchaUrl)
+console.log(captchaUrl)
   const formik = useFormik({
     initialValues: {
       email: 'albinakovalevaa@gmail.com',
@@ -71,6 +72,8 @@ const Login = () => {
           />
           <label htmlFor={'rememberMe'}>remember me</label>
         </div>
+        {/* если url каптчи есть, то показать картинку взятую с сервера */}
+        { captchaUrl && <img src={captchaUrl} alt='' />}
        <div> {apiErrors ? <div className={styles.formSummaryError}>{apiErrors}</div> : null}</div>
         <div>
           <button type="submit" id='login' className={stylesButton.button}></button>
