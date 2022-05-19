@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 import store from './redux/redux-store'
 import { Provider } from 'react-redux'
-import { Routes, Route, HashRouter } from 'react-router-dom'
+import { Routes, Route, HashRouter, Navigate } from 'react-router-dom'
 import Preloader from './components/common/preloader/Preloader'
 
 //Lazy loading
@@ -27,7 +27,7 @@ class App extends Component {
   }
   render() {
     //будем возвращать всю разметку, только если проинициализировались,иначе загрузку
-    if(!this.props.initialized){
+    if (!this.props.initialized) {
       return <Preloader />
     }
     return (
@@ -38,6 +38,7 @@ class App extends Component {
           <div className="app-wrapper-content">
             <Suspense fallback={<Preloader />}>
               <Routes>
+                <Route path="/" element={<Navigate to="/profile" />} />
                 <Route path="/profile/:userId" element={<ProfileContainer />} />
                 <Route path="/profile" element={<ProfileContainer />} />
                 <Route path="/dialogs/*" element={<DialogsContainer />} />
@@ -47,6 +48,7 @@ class App extends Component {
                 <Route path="/settings/*" element={<Settings />} />
                 <Route path="/friends/*" element={<Friends />} />
                 <Route path="/login/*" element={<Login />} />
+                <Route path="*" element={'404 NOT FOUND'} />
               </Routes>
             </Suspense>
           </div>
@@ -63,7 +65,7 @@ const mapStateToProps = (state) => ({
 
 let AppContainer =  connect(mapStateToProps, { initializeApp })(App)
 
-const MainJSApp = (props) =>{
+const MainJSApp = () =>{
   return (
     //HashRouter вместо BrowserRouter, для того чтобы можно было обновлять страницу, так как сервер через github
     <HashRouter>
