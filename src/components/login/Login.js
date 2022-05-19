@@ -11,15 +11,15 @@ const Login = () => {
   const dispatch = useDispatch()
   const isAuth = useSelector(selectors.isAuthenticated)
   const captchaUrl = useSelector(selectors.isCaptchaUrl)
-console.log(captchaUrl)
   const formik = useFormik({
     initialValues: {
       email: 'albinakovalevaa@gmail.com',
       password: '46265642aA*',
       rememberMe: false,
+      captcha: ''
     },
     onSubmit: (formData, {setStatus}) =>
-      dispatch(login(formData.email, formData.password, formData.rememberMe, setStatus)
+      dispatch(login(formData.email, formData.password, formData.rememberMe, formData.captcha , setStatus)
       ),
     validationSchema: LoginSchema,
   })
@@ -74,6 +74,16 @@ console.log(captchaUrl)
         </div>
         {/* если url каптчи есть, то показать картинку взятую с сервера */}
         { captchaUrl && <img src={captchaUrl} alt='' />}
+        { captchaUrl &&  
+        <div>
+          <input
+            id="captcha"
+            name="captcha"
+            type="text"
+            onChange={formik.handleChange}
+            placeholder={'Symbols from image'}
+            /> 
+          </div>}
        <div> {apiErrors ? <div className={styles.formSummaryError}>{apiErrors}</div> : null}</div>
         <div>
           <button type="submit" id='login' className={stylesButton.button}></button>

@@ -52,9 +52,9 @@ export const getAuthUserData = () => async (dispatch) => {
     }
 
   //thunk для логинизации
-export const login = (email, password, rememberMe, setStatus) => async (dispatch) => {
+export const login = (email, password, rememberMe, captcha, setStatus) => async (dispatch) => {
 // const isAuthenticated = selectors.isAuthenticated(getState())
-  const response = await authAPI.login(email, password, rememberMe)
+  const response = await authAPI.login(email, password, rememberMe, captcha)
     //если в дате resultCode = 0, значит мы залогинены на сервере и тогда залогиниться на нашем сайте
     if (response.data.resultCode === 0) {
       dispatch(getAuthUserData())
