@@ -40,7 +40,7 @@ export const profileAPI = {
     return instance.get(`profile/status/${userId}`)
   },
   //редактировать статус
-  updateStatus(status) {
+  updateStatusApi(status) {
     //передаем на сервер объект, который имеет статус и он будет равен тому новому тексту, который введет пользователь
     return instance.put(`profile/status`, {
       status: status,

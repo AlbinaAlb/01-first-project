@@ -2,8 +2,7 @@ import { connect } from 'react-redux'
 import {addPostActionCreator} from '../../../redux/profile-reducer'
 import MyPosts from './MyPosts'
 
-//ф-я мапит стейт на пропсы (превращает часть стейта в пропсы)
-//настраивает свойства,которые мы берем из стейта
+//достаёт свойства из стейта
 let mapStateToProps = (state) => {
   return {
     posts: state.profilePage.posts,

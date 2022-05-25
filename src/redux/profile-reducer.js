@@ -18,8 +18,8 @@ let initialState = {
 
 //преобразование state
 const profileReducer = (state = initialState, action) => {
-  //метод для создания нового поста в ленте
   switch (action.type) {
+    //метод для создания нового поста в ленте
     case ADD_POST_TO_STATE: {
       //делаем поверхностную копию стейта
       return {
@@ -78,7 +78,7 @@ export const getStatus = (userId) => async (dispatch) => {
 }
 
 export const updateStatus = (status) => async (dispatch) => {
-  const response = await profileAPI.updateStatus(status)
+  const response = await profileAPI.updateStatusApi(status)
   //если ошибки нет(ошибка в случае 1) тогда показать статус
   if (response.data.resultCode === 0) {
     dispatch(setStatusAction(status))

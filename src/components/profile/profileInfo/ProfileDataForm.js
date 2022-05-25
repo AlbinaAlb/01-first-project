@@ -10,7 +10,7 @@ const ProfileDataForm = (props) => {
   const formik = useFormik({
     initialValues: {
       fullName: '',
-      lookingForAJob: '',
+      lookingForAJob: false,
       lookingForAJobDescription: '',
       aboutMe: '',
       contacts: {
@@ -23,20 +23,19 @@ const ProfileDataForm = (props) => {
         youtube: '',
       },
     },
-    onSubmit: (formData, {setStatus} ) =>{
-      dispatch(saveProfile(formData.fullName, formData.lookingForAJob, formData.lookingForAJobDescription, formData.aboutMe, formData.contacts, setStatus))
-      //setStatus.resetForm()
+    onSubmit: (formData, { setStatus }) => {
+      props.onSubmit(formData)
+      dispatch(saveProfile(formData, setStatus))
     },
     validationSchema: ProfileDataSchema,
   })
     let apiErrors
-    if (formik.status) {
+    //если в форме есть ошибка с сервера, то вывести
+    /* if (formik.status) {
       apiErrors = formik.status.error.map((item, index) => (
-        <span key={index}>{item}</span>
+        <div key={index}>{item}</div>
       ))
-    }
-    console.log(formik.status);
-   // console.log(formik);
+    }  */
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={styles.formControl + ' ' + (formik.errors.fullName ? styles.error : '')}>
@@ -54,7 +53,7 @@ const ProfileDataForm = (props) => {
         </div>
         {formik.errors.fullName && <span>{formik.errors.fullName}</span>}
       </div>
-      <div>
+      <div className={styles.formControl + ' ' + (formik.errors.lookingForAJob ? styles.error : '')}>
         <b>Looking for a job: </b>
         <input
           id="lookingForAJob"
@@ -64,11 +63,12 @@ const ProfileDataForm = (props) => {
           onBlur={formik.handleBlur}
           value={formik.values.lookingForAJob}
         />
+        <div>
         {formik.errors.lookingForAJob && (
-          <div>{formik.errors.lookingForAJob}</div>
-        )}
+          <span>{formik.errors.lookingForAJob}</span>
+        )}</div>
       </div>
-      <div>
+      <div className={styles.formControl + ' ' + (formik.errors.lookingForAJobDescription ? styles.error : '')}>
         <b>My professional skills: </b>
         <div>
           <textarea
@@ -81,11 +81,12 @@ const ProfileDataForm = (props) => {
             value={formik.values.lookingForAJobDescription}
           />
         </div>
+        <div>
         {formik.errors.lookingForAJobDescription && (
-          <div>{formik.errors.lookingForAJobDescription}</div>
-        )}
+          <span>{formik.errors.lookingForAJobDescription}</span>
+        )}</div>
       </div>
-      <div>
+      <div className={styles.formControl + ' ' + (formik.errors.aboutMe ? styles.error : '')}>
         <b>About me: </b>
         <div>
           <textarea
@@ -98,7 +99,9 @@ const ProfileDataForm = (props) => {
             value={formik.values.aboutMe}
           />
         </div>
-        {formik.errors.aboutMe && <div>{formik.errors.aboutMe}</div>}
+        <div>
+        {formik.errors.aboutMe && <span>{formik.errors.aboutMe}</span>}
+        </div>
       </div>
       <div>
         <b>Contacts: </b>
@@ -110,7 +113,7 @@ const ProfileDataForm = (props) => {
                 <input
                   id={`contacts.` + key}
                   name={`contacts.` + key}
-                  placeholder={`Type your `+ key}
+                  placeholder={`Type your ` + key + ` link`}
                   type="text"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
