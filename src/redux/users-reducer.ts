@@ -1,5 +1,6 @@
 import { usersAPI } from '../api/api'
-import {updateObjectInArray} from '../utils/object-helpers'
+import { UserType } from '../types/types'
+import { updateObjectInArray } from '../utils/object-helpers'
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -11,16 +12,18 @@ const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 
 //объект со стартовыми данными. В случае если в state у profileReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
-  users: [],
+  users: [] as Array<UserType>,
   pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
-  followingInProgress: [],
+  followingInProgress: [] as Array<number>,
 }
 
+export type InitialStateType = typeof initialState
+
 //преобразование state путем получения данных с сервера
-const usersReducer = (state = initialState, action) => {
+const usersReducer = (state = initialState, action: any): InitialStateType => {
   //редюсер из экшена достает свойства: action.currentPage, action.isFetching и тд
   switch (action.type) {
     //если нужно зафолловить пользователя, то
@@ -29,12 +32,16 @@ const usersReducer = (state = initialState, action) => {
         //копируем стейт,
         ...state,
         //копируем юзеров в нем
-        users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
+        users: updateObjectInArray(state.users, action.userId, 'id', {
+          followed: true,
+        }),
       }
     case UNFOLLOW:
       return {
         ...state,
-        users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})
+        users: updateObjectInArray(state.users, action.userId, 'id', {
+          followed: false,
+        }),
       }
     //когда с сервера придут пользователи, мы берем старый стейт и к старым пользователям добавляем новых [...state.users, ...action.users] или перезатираем стейт полностью
     case SET_USERS:
@@ -64,37 +71,98 @@ const usersReducer = (state = initialState, action) => {
   }
 }
 
-export const followSuccess = (userId) => ({ type: FOLLOW, userId })
-export const unfollowSuccess = (userId) => ({ type: UNFOLLOW, userId })
+type FollowSuccessActionType = {
+  type: typeof FOLLOW
+  userId: number
+}
+export const followSuccess = (userId: number): FollowSuccessActionType => ({
+  type: FOLLOW,
+  userId,
+})
+type UnfollowSuccessActionType = {
+  type: typeof UNFOLLOW
+  userId: number
+}
+export const unfollowSuccess = (userId: number): UnfollowSuccessActionType => ({
+  type: UNFOLLOW,
+  userId,
+})
+type SetUsersActionType = {
+  type: typeof SET_USERS
+  users: Array<UserType>
+}
 //юзеры будут приходить с сервера, поэтому создаем переменную которая будет добавлять юзеров в стейт
-export const setUsers = (users) => ({ type: SET_USERS, users })
+export const setUsers = (users: Array<UserType>): SetUsersActionType => ({
+  type: SET_USERS,
+  users,
+})
+type SetCurrentPageActionType = {
+  type: typeof SET_CURRENT_PAGE
+  currentPage: number
+}
 //изменить текущую страницу кликая по страничкам
-export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE,currentPage})
+export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => ({
+  type: SET_CURRENT_PAGE,
+  currentPage,
+})
+type SetTotalUsersCountActionType = {
+  type: typeof SET_TOTAL_USERS_COUNT
+  count: number
+}
 //установить общее кол-во пользователей получаемое с сервера
-export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount})
-export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
+export const setTotalUsersCount = (
+  totalUsersCount: number
+): SetTotalUsersCountActionType => ({
+  type: SET_TOTAL_USERS_COUNT,
+  count: totalUsersCount,
+})
+type ToggleIsFetchingActionType = {
+  type: typeof TOGGLE_IS_FETCHING
+  isFetching: boolean
+}
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => ({
+  type: TOGGLE_IS_FETCHING,
+  isFetching,
+})
+type ToggleFollowingProgressActionType = {
+  type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
+  isFetching: boolean
+  userId: number
+}
+export const toggleFollowingProgress = (
+  isFetching: boolean,
+  userId: number
+): ToggleFollowingProgressActionType => ({
+  type: TOGGLE_IS_FOLLOWING_PROGRESS,
+  isFetching,
+  userId,
+})
 
 //ThunkCreator это функция, которая может что-то принимать и возвращает ф-ю thunk
-export const requestUsers = (page, pageSize) => {
+export const requestUsers = (page: number, pageSize: number) => {
   //ф-я thunk, которая получает пользователей
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     //когда запрос идет на сервер
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
     //запрос на сервер и получение данных оттуда и вставкой выбранной страницы и размер кол-ва юзеров на странице
     const data = await usersAPI.getUsers(page, pageSize)
-      //когда пришел ответ с сервера
-      dispatch(toggleIsFetching(false))
-      //получить всех пользователей с сервера
-      dispatch(setUsers(data.items))
-      //получить все страницы с сервера
-      dispatch(setTotalUsersCount(data.totalCount))
+    //когда пришел ответ с сервера
+    dispatch(toggleIsFetching(false))
+    //получить всех пользователей с сервера
+    dispatch(setUsers(data.items))
+    //получить все страницы с сервера
+    dispatch(setTotalUsersCount(data.totalCount))
   }
 }
 
 //ф-я для того что б не дублировалась логика follow и unfollow
-const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
+const followUnfollowFlow = async (
+  dispatch: any,
+  userId: number,
+  apiMethod: any,
+  actionCreator: any
+) => {
   dispatch(toggleFollowingProgress(true, userId))
   const response = await apiMethod(userId)
   //если подписка произошла тогда диспатчим колбэк follow в редюсер
@@ -104,9 +172,9 @@ const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) =>
   dispatch(toggleFollowingProgress(false, userId))
 }
 
-//ThunkCreator 
-export const follow = (userId) => {
-  return async (dispatch) => {
+//ThunkCreator
+export const follow = (userId: number) => {
+  return async (dispatch: any) => {
     followUnfollowFlow(
       dispatch,
       userId,
@@ -115,9 +183,9 @@ export const follow = (userId) => {
     )
   }
 }
-//ThunkCreator 
-export const unfollow = (userId) => {
-  return async (dispatch) => {
+//ThunkCreator
+export const unfollow = (userId: number) => {
+  return async (dispatch: any) => {
     followUnfollowFlow(
       dispatch,
       userId,
@@ -126,6 +194,5 @@ export const unfollow = (userId) => {
     )
   }
 }
-
 
 export default usersReducer

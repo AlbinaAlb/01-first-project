@@ -1,4 +1,5 @@
 import { usersAPI, profileAPI } from '../api/api'
+import { PhotosType, PostType, ProfileType } from '../types/types'
 
 //action types
 const ADD_POST_TO_STATE = 'ADD-POST-TO-STATE'
@@ -11,29 +12,33 @@ let initialState = {
   posts: [
     { id: 1, message: 'Hi, how are you?', likesCount: '15 likes' },
     { id: 2, message: "It's my first post", likesCount: '20 likes' },
-  ],
-  profile: null,
+  ] as Array<PostType>,
+  profile: null as ProfileType | null,
   status: '',
+  newPostText: '',
 }
 
+export type InitialStateType = typeof initialState
+
 //преобразование state
-const profileReducer = (state = initialState, action) => {
-  //метод для создания нового поста в ленте
+const profileReducer = (
+  state = initialState,
+  action: any
+): InitialStateType => {
   switch (action.type) {
+    //метод для создания нового поста в ленте
     case ADD_POST_TO_STATE: {
+      let newPost = {
+        id: 5,
+        message: action.payload.newPostText,
+        likesCount: '0 likes',
+      }
       //делаем поверхностную копию стейта
       return {
         ...state,
         //делаем глубокую копию стейта (с массивом), так как мы планируем менять этот массив
-        posts: [
-          ...state.posts,
-          //добавляем в массив постов новый пост
-          {
-            id: 5,
-            message: action.payload.newPostText,
-            likesCount: '0 likes',
-          },
-        ],
+        posts: [...state.posts, newPost],
+        newPostText: ''
       }
     }
     //если тип экшена SET_USER_PROFILE, то мы вернем копию стейта в которой поменяем профайл на профайл из экшена
@@ -45,50 +50,83 @@ const profileReducer = (state = initialState, action) => {
     }
     //редюсер обработает этот тип экшена и в профайле поменяет фото
     case SAVE_PHOTO_SUCCESS:
-      return { ...state, profile: { ...state.profile, photos: action.photos } }
+      return { ...state, profile: { ...state.profile, photos: action.photos } as ProfileType }
     default:
       return state
   }
 }
 
-//ActionCreator - это ф-я,которая возвращает объект action: { type: SET_USER_PROFILE, profile }.
-//action это объект в котоом инкапсулированы все данные,чтобы редюсер получил этот action и примнил изменения на свой стейт
-//SET_USER_PROFILE это навание действия - что нужно сделать, profile - где нужно сделать
-export const addPostActionCreator = (newPostText) => ({
-  type: ADD_POST_TO_STATE,
-  payload: {
-    newPostText,
-  },
+type AddPostActionCreatorType = {
+  type: typeof ADD_POST_TO_STATE
+  newPostText: string
+}
+export const addPostActionCreator = (newPostText: string): AddPostActionCreatorType => ({
+  type: ADD_POST_TO_STATE, newPostText
 })
-export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
-export const setStatus = (status) => ({ type: SET_STATUS, status })
-export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })
+
+type SetUserProfileActionType = {
+  type: typeof SET_USER_PROFILE
+  profile: ProfileType
+}
+export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({
+  type: SET_USER_PROFILE,
+  profile,
+})
+
+type SetStatusActionType = {
+  type: typeof SET_STATUS
+  status: string
+}
+export const setStatusAction = (status: string): SetStatusActionType => ({
+  type: SET_STATUS,
+  status,
+})
+
+type SavePhotoSuccessActionType = {
+  type: typeof SAVE_PHOTO_SUCCESS
+  photos: PhotosType
+}
+export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({
+  type: SAVE_PHOTO_SUCCESS,
+  photos,
+})
 
 //ThunkCreator
-export const getUserProfile = (userId) => async (dispatch) => {
+export const getUserProfile = (userId: number) => async (dispatch: any) => {
   const response = await usersAPI.getProfile(userId)
   //тогда добавляем данные с сервера (которые теперь находятся в response), в reducer под названием setUserProfile
   //найти в пропсах экшион - setUserProfile и добавить из response данные в него, чтобы отправить
   dispatch(setUserProfile(response.data))
 }
 
-export const getStatus = (userId) => async (dispatch) => {
+export const getStatus = (userId: number) => async (dispatch: any) => {
   const response = await profileAPI.getStatus(userId)
-  dispatch(setStatus(response.data))
+  dispatch(setStatusAction(response.data))
 }
 
-export const updateStatus = (status) => async (dispatch) => {
-  const response = await profileAPI.updateStatus(status)
+export const updateStatus = (status: string) => async (dispatch: any) => {
+  const response = await profileAPI.updateStatusApi(status)
   //если ошибки нет(ошибка в случае 1) тогда показать статус
   if (response.data.resultCode === 0) {
-    dispatch(setStatus(status))
+    dispatch(setStatusAction(status))
   }
 }
-export const savePhoto = (file) => async (dispatch) => {
+export const savePhoto = (file: any) => async (dispatch: any) => {
   const response = await profileAPI.savePhoto(file)
   //если ошибки нет(ошибка в случае 1) тогда передать фото из респонса редюсеру
   if (response.data.resultCode === 0) {
     dispatch(savePhotoSuccess(response.data.data.photos))
+  }
+}
+export const saveProfile = (profile:ProfileType, setStatus: any) => async (dispatch: any, getState: any) => {
+  const userId = getState().auth.userId
+  const response = await profileAPI.saveProfile(profile)
+  //необходимо заново вызвать профиль, после обновления данных
+  if (response.data.resultCode === 0) {
+    dispatch(getUserProfile(userId))
+  } else {
+    setStatus({ error: response.data.messages })
+    return Promise.reject(response.data.messages)
   }
 }
 

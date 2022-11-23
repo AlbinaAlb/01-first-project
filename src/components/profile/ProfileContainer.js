@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Profile from './Profile'
 import { connect } from 'react-redux'
-import { getUserProfile, getStatus, updateStatus, savePhoto } from '../../redux/profile-reducer'
+import { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile } from '../../redux/profile-reducer'
 import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -35,6 +35,7 @@ function ProfileContainer(props) {
       status={props.status}
       updateStatus={props.updateStatus}
       savePhoto={props.savePhoto}
+      saveProfile={props.saveProfile}
     />
   )
 }
@@ -49,7 +50,7 @@ let mapStateToProps = (state) => ({
 
 //compose ф-я, которая позволяет получить результат одной функци, а потом обработать его при помощи другой функции
 export default compose(
-  connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto }),
+  connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile }),
   //вызываем HOC и кладем ему в параметр Profile
   withAuthRedirect
 )(ProfileContainer)

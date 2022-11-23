@@ -6,7 +6,6 @@ const ProfileStatusWithHooks = (props) => {
   //В первом элементе массива первое значение стейта, вторым элементом является ф-я которая будет изменять первый элемент.
   //Деструктурирующее присваивание : editMode = 0 элемент массива (false); setEditMode = 1 элемент (ф-я)
   let [editMode, setEditMode] = useState(false)
-  //второй типа локальный стейт
   let [status, setStatus] = useState(props.status)
 
   // [] чтобы useEffect запускался не всегда, а только один раз в момент когда компонент самый первый раз вмонтировался 
@@ -36,7 +35,7 @@ const onStatusChange = (e) => {
     <div>
       {!editMode && (
         <div>
-          <span onDoubleClick={activateEditMode}>{props.status || '---'}</span>
+         <b>Status:</b> <span onDoubleClick={activateEditMode}>{props.status || '---'}</span>
         </div>
       )}
       {editMode && (
