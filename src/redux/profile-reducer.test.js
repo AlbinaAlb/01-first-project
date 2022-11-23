@@ -1,4 +1,4 @@
-import profileReducer, { addPostActionCreator} from './profile-reducer'
+/* import profileReducer, { addPostActionCreator} from './profile-reducer'
 
   let state = {
     posts: [
@@ -24,4 +24,4 @@ test('message of new post should be correct', () => {
   let newState = profileReducer(state, action)
   //проверяем соответствие текста в третьем элементе
   expect(newState.posts[2].message).toBe('it-kam')
-})
+}) */

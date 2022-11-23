@@ -1,56 +1,59 @@
 import s from './Navbar.module.scss'
 import { NavLink } from 'react-router-dom'
+import friendPhoto from '../../assets/images/28.jpeg'
+import friendPhoto2 from '../../assets/images/image.jpeg'
+import friendPhoto3 from '../../assets/images/images.jpeg'
 
 const Navbar = () => {
   return (
     <nav className={s.nav}>
-        <div className={s.nav__item}>
-          <NavLink
-            to="/profile"
-            className={(navData) => (navData.isActive ? s.active : s.item)}
-          >
-            Profile
-          </NavLink>
-        </div>
-        <div className={s.nav__item}>
-          <NavLink
-            className={(navData) => (navData.isActive ? s.active : s.item)}
-            to="/dialogs"
-          >
-            Messages
-          </NavLink>
-        </div>
-        <div className={s.nav__item}>
-          <NavLink
-            className={(navData) => (navData.isActive ? s.active : s.item)}
-            to="/users"
-          >
-            Users
-          </NavLink>
-        </div>
-        <div className={s.nav__item}>
-          <NavLink
-            className={(navData) => (navData.isActive ? s.active : s.item)}
-            to="/news"
-          >
-            News
-          </NavLink>
-        </div>
-        <div className={s.nav__item}>
-          <NavLink
-            className={(navData) => (navData.isActive ? s.active : s.item)}
-            to="/music"
-          >
-            Music
-          </NavLink>
-        </div>
-        <div className={s.nav__item}>
-          <NavLink
-            className={(navData) => (navData.isActive ? s.active : s.item)}
-            to="/settings"
-          >
-            Settings
-          </NavLink>
+      <div className={s.nav__item}>
+        <NavLink
+          to="/profile"
+          className={(navData) => (navData.isActive ? s.active : s.item)}
+        >
+          Profile
+        </NavLink>
+      </div>
+      <div className={s.nav__item}>
+        <NavLink
+          className={(navData) => (navData.isActive ? s.active : s.item)}
+          to="/dialogs"
+        >
+          Messages
+        </NavLink>
+      </div>
+      <div className={s.nav__item}>
+        <NavLink
+          className={(navData) => (navData.isActive ? s.active : s.item)}
+          to="/users"
+        >
+          Users
+        </NavLink>
+      </div>
+      <div className={s.nav__item}>
+        <NavLink
+          className={(navData) => (navData.isActive ? s.active : s.item)}
+          to="/news"
+        >
+          News
+        </NavLink>
+      </div>
+      <div className={s.nav__item}>
+        <NavLink
+          className={(navData) => (navData.isActive ? s.active : s.item)}
+          to="/music"
+        >
+          Music
+        </NavLink>
+      </div>
+      <div className={s.nav__item}>
+        <NavLink
+          className={(navData) => (navData.isActive ? s.active : s.item)}
+          to="/settings"
+        >
+          Settings
+        </NavLink>
       </div>
       <div className={s.nav__friends}>
         <div className={s.nav__item}>
@@ -60,18 +63,9 @@ const Navbar = () => {
           >
             Friends
             <div>
-              <img
-                src="https://rus.team/images/article/6628/2018-01-16-837_17831-1_975211.webp"
-                alt=""
-              />
-              <img
-                src="https://rus.team/images/article/6628/2018-01-16-837_17831-1_975211.webp"
-                alt=""
-              />
-              <img
-                src="https://rus.team/images/article/6628/2018-01-16-837_17831-1_975211.webp"
-                alt=""
-              />
+              <img src={friendPhoto} alt="" />
+              <img src={friendPhoto2} alt="" />
+              <img src={friendPhoto3} alt="" />
             </div>
           </NavLink>
         </div>
