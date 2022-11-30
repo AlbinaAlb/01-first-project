@@ -1,6 +1,9 @@
+import { Dispatch } from 'redux'
+import { ThunkAction } from 'redux-thunk'
 import { usersAPI } from '../api/api'
 import { UserType } from '../types/types'
 import { updateObjectInArray } from '../utils/object-helpers'
+import { AppStateType } from './redux-store'
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -71,6 +74,15 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
   }
 }
 
+type ActionsTypes =
+  | FollowSuccessActionType
+  | UnfollowSuccessActionType
+  | SetUsersActionType
+  | SetCurrentPageActionType
+  | SetTotalUsersCountActionType
+  | ToggleIsFetchingActionType
+  | ToggleFollowingProgressActionType
+
 type FollowSuccessActionType = {
   type: typeof FOLLOW
   userId: number
@@ -101,7 +113,9 @@ type SetCurrentPageActionType = {
   currentPage: number
 }
 //изменить текущую страницу кликая по страничкам
-export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => ({
+export const setCurrentPage = (
+  currentPage: number
+): SetCurrentPageActionType => ({
   type: SET_CURRENT_PAGE,
   currentPage,
 })
@@ -120,7 +134,9 @@ type ToggleIsFetchingActionType = {
   type: typeof TOGGLE_IS_FETCHING
   isFetching: boolean
 }
-export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => ({
+export const toggleIsFetching = (
+  isFetching: boolean
+): ToggleIsFetchingActionType => ({
   type: TOGGLE_IS_FETCHING,
   isFetching,
 })
@@ -138,10 +154,12 @@ export const toggleFollowingProgress = (
   userId,
 })
 
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
 //ThunkCreator это функция, которая может что-то принимать и возвращает ф-ю thunk
-export const requestUsers = (page: number, pageSize: number) => {
+export const requestUsers = (page: number, pageSize: number): ThunkType => {
   //ф-я thunk, которая получает пользователей
-  return async (dispatch: any) => {
+  return async (dispatch) => {
     //когда запрос идет на сервер
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
@@ -157,11 +175,11 @@ export const requestUsers = (page: number, pageSize: number) => {
 }
 
 //ф-я для того что б не дублировалась логика follow и unfollow
-const followUnfollowFlow = async (
-  dispatch: any,
+const _followUnfollowFlow = async (
+  dispatch: Dispatch<ActionsTypes>,
   userId: number,
   apiMethod: any,
-  actionCreator: any
+  actionCreator: (userId: number) => FollowSuccessActionType | UnfollowSuccessActionType
 ) => {
   dispatch(toggleFollowingProgress(true, userId))
   const response = await apiMethod(userId)
@@ -173,9 +191,9 @@ const followUnfollowFlow = async (
 }
 
 //ThunkCreator
-export const follow = (userId: number) => {
-  return async (dispatch: any) => {
-    followUnfollowFlow(
+export const follow = (userId: number): ThunkType => {
+  return async (dispatch) => {
+    _followUnfollowFlow(
       dispatch,
       userId,
       usersAPI.follow.bind(usersAPI),
@@ -184,9 +202,9 @@ export const follow = (userId: number) => {
   }
 }
 //ThunkCreator
-export const unfollow = (userId: number) => {
-  return async (dispatch: any) => {
-    followUnfollowFlow(
+export const unfollow = (userId: number): ThunkType => {
+  return async (dispatch) => {
+    _followUnfollowFlow(
       dispatch,
       userId,
       usersAPI.unfollow.bind(usersAPI),

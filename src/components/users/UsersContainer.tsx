@@ -4,8 +4,6 @@ import { compose } from 'redux'
 import {
   follow,
   unfollow,
-  setCurrentPage,
-  toggleFollowingProgress,
   requestUsers,
 } from '../../redux/users-reducer'
 import Preloader from '../common/preloader/Preloader'
@@ -18,25 +16,45 @@ import {
   getIsFetching,
   getFollowingInProgress
 } from '../../redux/selectors/users-selectors'
+import { UserType } from '../../types/types'
+import { AppStateType } from '../../redux/redux-store'
 
-//компонент вызывает колбэк, который делает AJAX запрос на сервер
-class UsersContainer extends React.Component {
+type MapStatePropsType = {
+  currentPage: number
+  pageSize: number
+  isFetching: boolean
+  totalUsersCount: number
+  users: Array<UserType>
+  followingInProgress: Array<number>
+}
+
+type MapDispatchPropsType = {
+  getUsers: (currentPage: number, pageSize: number) => void
+  unfollow: (userId: number) => void
+  follow: (userId: number) => void
+}
+
+type OwnPropsType = {
+  pageTitle: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+class UsersContainer extends React.Component<PropsType> {
   componentDidMount() {
-    //с помощью деструктуризации достаем из пропсов currentPage и pageSize
     const { currentPage, pageSize } = this.props
-    this.props.requestUsers(currentPage, pageSize)
+    this.props.getUsers(currentPage, pageSize)
   }
 
-  //по клику на кнопку
-  onPageChanged = (pageNumber) => {
+  onPageChanged = (pageNumber: number) => {
     const { pageSize } = this.props
-    this.props.requestUsers(pageNumber, pageSize)
+    this.props.getUsers(pageNumber, pageSize)
   }
 
   render() {
     return (
       <>
-        {/* если данные с сервера получаются (грузятся), то вставляем картинку, или ничего */}
+      <h3 style={{ paddingLeft: "10px "}}>{this.props.pageTitle}</h3>
         {this.props.isFetching ? <Preloader /> : null}
         <Users
           totalUsersCount={this.props.totalUsersCount}
@@ -53,9 +71,7 @@ class UsersContainer extends React.Component {
   }
 }
 
-//state берется из redux-store, который в свою очередь берется из users-reducer
-//данная ф-я из стейта достает разные данные
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
@@ -67,10 +83,12 @@ let mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, {
-  follow,
-  unfollow,
-  setCurrentPage,
-  toggleFollowingProgress,
-  requestUsers,
-}))(UsersContainer)
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
+    mapStateToProps,
+    {
+      follow,
+      unfollow,
+      getUsers: requestUsers,
+    }
+  )
+)(UsersContainer)

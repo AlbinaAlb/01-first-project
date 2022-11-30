@@ -1,18 +1,27 @@
-import React from 'react'
+import { UserType } from '../../types/types'
 import Paginator from '../common/paginator/Paginator'
 import User from './User'
 
-let Users = ({ currentPage, totalUsersCount, pageSize, onPageChanged, users, ...props }) => {
+type PropsType = {
+  currentPage: number
+  totalUsersCount: number
+  pageSize: number
+  onPageChanged: (pageNumber: number) => void
+  users: Array<UserType>
+  followingInProgress: Array<number>
+  unfollow: (userId: number) => void
+  follow: (userId: number) => void
+}
+
+let Users = ({ currentPage, totalUsersCount, pageSize, onPageChanged, users, ...props }: PropsType) => {
   return (
     <div>
-      {/* странички */}
       <Paginator
         currentPage={currentPage}
         onPageChanged={onPageChanged}
         totalItemsCount={totalUsersCount}
         pageSize={pageSize}
       />
-      {/* карточка каждого пользователя */}
       <div>
         {users.map((u) => (
           <User
