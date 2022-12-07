@@ -23,7 +23,7 @@ type MapStatePropsType = {
   status: string
 }
 
-type MapDispatchPropsType = {
+type DispatchPropsType = {
   savePhoto: (file: any) => void
   saveProfile: (profile: ProfileType, setStatus: any) => void
   updateStatus: (status: string) => void
@@ -36,13 +36,14 @@ type ParamsType = {
   userId: number
 }
 
-type PropsType = MapStatePropsType & MapDispatchPropsType & ParamsType
+type PropsType = MapStatePropsType & DispatchPropsType & ParamsType
 
 function ProfileContainer(props: PropsType) {
   // когда будем писать на хуках, будет юзаться для того чтоб диспатчить экшины и thunk в стор из функциональных компонетов
   const dispatch = useDispatch()
   //в App cоздали Route "/profile/:userId", и данный хук вытаскивает параметр - то что после :
   const params = useParams()
+  
   const [isMe, setIsMe] = useState(false)
 
   //хук принимает колбэк и массив 'зависимостей', при изменении этих зависимостей будет вызываться колбэк (чтобы ф-я вызвалась один раз при загрузке страницы)
@@ -79,7 +80,7 @@ function ProfileContainer(props: PropsType) {
 }
 
 //когда ф-я возвращает объект нужно ставить круглые скобки.
-let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+let mapStateToProps = (state: AppStateType) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
   autorizedUserId: state.auth.userId,

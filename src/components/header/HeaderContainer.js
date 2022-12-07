@@ -13,7 +13,9 @@ const mapStateToProps = (state) => ({
   isAuth: selectors.isAuthenticated(state),
   //если авторизованы, то показать логин
   login: state.auth.login,
+  isCaptchaUrl: selectors.isCaptchaUrl(state),
 })
+
 
 export default connect(mapStateToProps, {logout })(
   HeaderContainer
