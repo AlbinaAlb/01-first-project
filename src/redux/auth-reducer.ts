@@ -15,7 +15,6 @@ let initialState = {
 
 //преобразование state путем получения данных с сервера
 const authReducer = (state = initialState, action: any): InitialStateType => {
-  //редюсер из экшена достает свойства: action.currentPage, action.isFetching и тд
   switch (action.type) {
     case SET_USER_DATA:
     case GET_CAPTCHA_URL_SUCCESS:
@@ -69,9 +68,14 @@ export const getAuthUserData = () => async (dispatch: any) => {
   }
 }
 
-//thunk для логинизации
 export const login =
-  (email: string, password: string, rememberMe: boolean, setStatus: any, captcha: string) =>
+  (
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    captcha: string,
+    setStatus: any
+  ) =>
   async (dispatch: any) => {
     const data = await authAPI.login(email, password, rememberMe, captcha)
     //если в дате resultCode = 0, значит мы залогинены на сервере и тогда залогиниться на нашем сайте
@@ -80,10 +84,7 @@ export const login =
     } else {
       if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
         dispatch(getCaptchaUrl())
-      } 
-
-      //let message = data.messages.length > 0 ? data.messages[0] : "Some Error" 
-      //setStatus('login', { _error: message })
+      }
       setStatus({ error: data.messages })
     }
   }

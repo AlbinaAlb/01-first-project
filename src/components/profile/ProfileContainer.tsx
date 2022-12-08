@@ -32,23 +32,23 @@ type DispatchPropsType = {
 }
 
 type ParamsType = {
-  //updateStatus: string
   userId: number
 }
 
 type PropsType = MapStatePropsType & DispatchPropsType & ParamsType
 
 function ProfileContainer(props: PropsType) {
-  // когда будем писать на хуках, будет юзаться для того чтоб диспатчить экшины и thunk в стор из функциональных компонетов
+  // чтобы диспатчить экшины и thunk в стор из функциональных компонетов
   const dispatch = useDispatch()
   //в App cоздали Route "/profile/:userId", и данный хук вытаскивает параметр - то что после :
   const params = useParams()
-  
   const [isMe, setIsMe] = useState(false)
-
-  //хук принимает колбэк и массив 'зависимостей', при изменении этих зависимостей будет вызываться колбэк (чтобы ф-я вызвалась один раз при загрузке страницы)
+  //хук принимает колбэк и массив 'зависимостей', при изменении этих зависимостей ([params?.userId]) будет вызываться колбэк
   useEffect(() => {
-    //если мы не на чужом айди профиля или на айди своего, то переключить на тру
+    //если мы не на чужом айди профиля и на айди своего, то переключить на тру
+    if (!params?.userId && props.autorizedUserId) {
+      setIsMe(true)
+    }
     if (params.userId) {
       if (+params.userId === props.autorizedUserId) {
         setIsMe(true)
@@ -62,10 +62,8 @@ function ProfileContainer(props: PropsType) {
       dispatch(getUserProfile(props.autorizedUserId))
       dispatch(getStatus(props.autorizedUserId))
     }
-  }, [])
-  //раскрыть то что в пропсах и вставить как атрибуты в профайл */
-  //и добавить кроме тех пропсов что пришли в Profile из вне - profile из mapStateToProps
-  //компонент Profile получает в пропсах profile
+  }, [params?.userId])
+
   return (
     <Profile
       {...props}
