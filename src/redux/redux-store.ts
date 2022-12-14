@@ -24,6 +24,10 @@ type RootReducerType = typeof rootReducer
 //ReturnType определяет тип возвращаемый из RootReducerType
 export type AppStateType = ReturnType<RootReducerType>
 
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
+//InferActionsTypes - это условный тип(дженерик)
+ export type InferActionsTypes<T extends {[key: string]: (...args: any) => any}> = ReturnType<PropertiesTypes<T>>
+
 //@ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 //createStore создает внутри себя store со свойствами редюсерами
