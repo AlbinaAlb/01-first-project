@@ -1,12 +1,9 @@
-const ADD_MESSAGE_TO_STATE = 'ADD-MESSAGE-TO-STATE'
+import { InferActionsTypes } from './redux-store'
 
-export type InitialStateType = typeof initialState
-
-//тип для объектов внутри стейта
 type DialogType = {
-  id: number,
-  name: string,
-  lastname:string
+  id: number
+  name: string
+  lastname: string
 }
 
 type MessageType = {
@@ -14,7 +11,6 @@ type MessageType = {
   message: string
 }
 
-//объект со стартовыми данными. В случае если в state у dialogsReducer ничего не приходит, то этот обект будет начальным стейтом
 let initialState = {
   dialogs: [
     { id: 1, name: 'Dmitriy', lastname: 'Albinovych' },
@@ -31,27 +27,32 @@ let initialState = {
     { id: 4, message: 'Lorem, ipsum dolor.' },
   ] as Array<MessageType>,
 }
+export type InitialStateType = typeof initialState
 
-const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+const dialogsReducer = (
+  state = initialState,
+  action: ActionsTypes
+): InitialStateType => {
   //метод для создания нового сообщения в диалогах
   switch (action.type) {
-    case ADD_MESSAGE_TO_STATE:
-      let body = action.payload.newMessageText
+    case 'SN/DIALOGS/ADD_MESSAGE_TO_STATE':
+      let body = action.newMessageText
       return {
         ...state,
-        messages: [...state.messages, { id: 5, message: body }]
+        messages: [...state.messages, { id: 5, message: body }],
       }
     default:
       return state
   }
 }
 
-type AddMessageActionCreatorType = {
-  type: typeof ADD_MESSAGE_TO_STATE
-  newMessageText: string
+export const actions = {
+  addMessageActionCreator: (newMessageText: string) =>
+    ({
+      type: 'SN/DIALOGS/ADD_MESSAGE_TO_STATE',
+      newMessageText,
+    } as const),
 }
 
-export const addMessageActionCreator = (newMessageText: string): AddMessageActionCreatorType => ({
-  type: ADD_MESSAGE_TO_STATE,  newMessageText,
-})
 export default dialogsReducer
+type ActionsTypes = InferActionsTypes<typeof actions>

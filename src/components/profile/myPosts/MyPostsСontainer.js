@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {addPostActionCreator} from '../../../redux/profile-reducer'
+import {actions} from '../../../redux/profile-reducer'
 import MyPosts from './MyPosts'
 
 //достаёт свойства из стейта
@@ -15,7 +15,7 @@ let mapDispatchToProps = (dispatch) => {
   return {
     //ф-я добавляет пост
     addPost: (newPostText) => {
-      dispatch(addPostActionCreator(newPostText))
+      dispatch(actions.addPostActionCreator(newPostText))
     },
   }
 }

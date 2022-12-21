@@ -8,7 +8,7 @@ type PropsType = {
   profile: ProfileType | null
   status: string
   updateStatus: (status: string) => void
-  savePhoto: (file: any) => void
+  savePhoto: (file: File) => void
   saveProfile: (profile: ProfileType, setStatus: any) => void
 }
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {addMessageActionCreator} from '../../redux/dialogs-reducer'
+import { actions } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
 import {withAuthRedirect} from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
@@ -18,7 +18,7 @@ let mapDispatchToProps = (dispatch) => {
   return {
     //достаем из textarea введенное в него значение
     sendMessage: (newMessageText) => {
-      dispatch(addMessageActionCreator(newMessageText))
+      dispatch(actions.addMessageActionCreator(newMessageText))
     }
   }
 }

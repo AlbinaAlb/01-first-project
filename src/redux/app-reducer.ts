@@ -1,37 +1,28 @@
 //Инициализация приложения (Приведение программы или устройства в состояние готовности к использованию)
 import { getAuthUserData } from './auth-reducer'
-const INITIALISED_SUCCESS = 'INITIALISED_SUCCESS'
+import { InferActionsTypes } from './redux-store'
 
-export type InitialStateType = {
-  initialized: boolean
-}
-
-//объект со стартовыми данными. Эти данные придут из action
-let initialState: InitialStateType = {
+let initialState = {
   initialized: false,
 }
+export type InitialStateType = typeof initialState
 
-//преобразование state путем получения данных с сервера
-const appReducer = (state = initialState, action: any): InitialStateType => {
+const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
   switch (action.type) {
-    case INITIALISED_SUCCESS:
+    case 'SN/APP/INITIALISED_SUCCESS':
       return {
-        //копируем стейт и меняем initialized
         ...state,
-        initialized: true
+        initialized: true,
       }
     default:
       return state
   }
 }
 
-type InitializedSuccessActionType = {
-  type: typeof INITIALISED_SUCCESS
+//ActionCreators
+export const actions = {
+  initializedSuccess: () => ({ type: 'SN/APP/INITIALISED_SUCCESS' } as const),
 }
-
-export const initializedSuccess = (): InitializedSuccessActionType => ({
-  type: INITIALISED_SUCCESS,
-})
 
 //ThunkCreator
 //если мы залогинены, то запустить приложение (инициализировать)
@@ -39,8 +30,9 @@ export const initializeApp = () => (dispatch: any) => {
   let promise = dispatch(getAuthUserData())
   //когда все промисы из getAuthUserData зарезолвятся(закончатся асинх.операции), тогда диспатчим initializedSuccess
   Promise.all([promise]).then(() => {
-    dispatch(initializedSuccess())
+    dispatch(actions.initializedSuccess())
   })
 }
 
 export default appReducer
+type ActionsTypes = InferActionsTypes<typeof actions>
