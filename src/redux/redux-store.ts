@@ -30,9 +30,8 @@ type RootReducerType = typeof rootReducer
 //ReturnType определяет тип возвращаемый из RootReducerType
 export type AppStateType = ReturnType<RootReducerType>
 
-type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
 //InferActionsTypes - это условный тип(дженерик)
- export type InferActionsTypes<T extends {[key: string]: (...args: any) => any}> = ReturnType<PropertiesTypes<T>>
+ export type InferActionsTypes<T> = T extends {[keys: string]: (...args: any[]) => infer U} ? U: never
 
  //для типизации ThunkCreator
 export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>

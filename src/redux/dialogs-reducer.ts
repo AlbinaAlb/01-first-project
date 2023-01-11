@@ -47,7 +47,7 @@ const dialogsReducer = (
 }
 
 export const actions = {
-  addMessageActionCreator: (newMessageText: string) =>
+  sendMessage: (newMessageText: string) =>
     ({
       type: 'SN/DIALOGS/ADD_MESSAGE_TO_STATE',
       newMessageText,

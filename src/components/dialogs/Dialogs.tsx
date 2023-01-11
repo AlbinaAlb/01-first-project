@@ -1,11 +1,16 @@
-import React from 'react'
 import s from './Dialogs.module.scss'
 import DialogItem from './dialogItem/DialogsItem'
 import Message from './message/Message'
 import AddMessageForm from './addMessageForm/AddMessageForm'
+import { InitialStateType } from '../../redux/dialogs-reducer'
 
-const Dialogs = (props) => {
- let state = props.dialogsPage
+type PropsType = {
+  dialogsPage: InitialStateType
+  sendMessage: (messageText: string) => void
+}
+
+const Dialogs = (props: PropsType) => {
+  let state = props.dialogsPage
   //перебирам массив с именами и сообщениями, и создаем новый в виде jsx
   //'DialogItem' и 'Message' это компоненты выше,в которые мы передаем пропcы (name, message, id) из массивов dialogs и messages
   let dialogsElements = state.dialogs.map((d, index) => (
@@ -14,9 +19,9 @@ const Dialogs = (props) => {
   let messagesElement = state.messages.map((m, index) => (
     <Message key={`messagesElement_${index}`} message={m.message} id={m.id} />
   ))
-  
+
   //Кликнули по кнопке, значит надо отправить сообщение
-  let addNewMessage = (values) => {
+  let addNewMessage = (values: { newMessageText: string }) => {
     props.sendMessage(values.newMessageText)
   }
 
