@@ -86,7 +86,7 @@ let mapStateToProps = (state: AppStateType) => ({
 })
 
 //compose ф-я, которая позволяет получить результат одной функци, а потом обработать его при помощи другой функции
-export default compose(
+export default compose<React.ComponentType>(
   connect(mapStateToProps, {
     getUserProfile,
     getStatus,

@@ -5,7 +5,7 @@ import Navbar from './components/nav/Navbar'
 import { initializeApp } from './redux/app-reducer'
 import { connect } from 'react-redux'
 
-import store from './redux/redux-store'
+import store, { AppStateType } from './redux/redux-store'
 import { Provider } from 'react-redux'
 import { Routes, Route, HashRouter, Navigate } from 'react-router-dom'
 import Preloader from './components/common/preloader/Preloader'
@@ -20,7 +20,12 @@ const Settings = React.lazy(() => import('./components/settings/Settings'))
 const Friends = React.lazy(() => import('./components/friends/Friends'))
 const Login = React.lazy(() => import('./components/login/Login'))
 
-class App extends Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+  initializeApp: () => void
+}
+
+class App extends Component<MapPropsType & DispatchPropsType> {
   componentDidMount() {
     //обращаемся к бизнесу за данными (к thunk getAuthUserData в auth-user)
     this.props.initializeApp()
@@ -42,7 +47,10 @@ class App extends Component {
                 <Route path="/profile/:userId" element={<ProfileContainer />} />
                 <Route path="/profile" element={<ProfileContainer />} />
                 <Route path="/dialogs/*" element={<DialogsContainer />} />
-                <Route path="/users/*" element={<UsersContainer pageTitle={"Users"} />} />
+                <Route
+                  path="/users/*"
+                  element={<UsersContainer pageTitle={'Users'} />}
+                />
                 <Route path="/news/*" element={<News />} />
                 <Route path="/music/*" element={<Music />} />
                 <Route path="/settings/*" element={<Settings />} />
@@ -59,7 +67,7 @@ class App extends Component {
 }
 
 //теперь наш App получит данные проинициализированно ли приложение
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 })
 
