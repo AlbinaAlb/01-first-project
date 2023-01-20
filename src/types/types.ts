@@ -12,12 +12,11 @@ export type ContactsType = {
   twitter: string
   website: string
   youtube: string
-  mainLink: string
 }
 
 export type PhotosType = {
-  small: string | null
-  large: string | null
+  small: string | undefined
+  large: string | undefined
 }
 
 export type ProfileType = {
@@ -27,6 +26,7 @@ export type ProfileType = {
   fullName: string
   contacts: ContactsType
   photos: PhotosType
+  aboutMe: string
 }
 
 export type UserType = {

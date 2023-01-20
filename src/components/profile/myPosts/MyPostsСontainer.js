@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import {actions} from '../../../redux/profile-reducer'
-import MyPosts from './MyPosts'
+import MyPosts from './MyPosts.tsx'
 
 //достаёт свойства из стейта
 let mapStateToProps = (state) => {

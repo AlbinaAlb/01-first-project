@@ -1,35 +1,40 @@
-import React, { useState } from 'react'
 import s from './ProfileInfo.module.scss'
 import stylesButton from '../../button/Button.module.scss'
 import Preloader from '../../common/preloader/Preloader'
 import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 import userPhoto from '../../../assets/images/cat.jpeg'
 import ProfileDataForm from './ProfileDataForm'
+import { ContactsType, ProfileType } from '../../../types/types'
+import { ChangeEvent, useState } from 'react'
 
-const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto, saveProfile }) => {
-  //типа локальный стейт
-  //useState возвращает массив
-  //В первом элементе массива первое значение стейта, вторым элементом является ф-я которая будет изменять первый элемент.
-  //Деструктурирующее присваивание : editMode = 0 элемент массива (false); setEditMode = 1 элемент (ф-я)
+type PropsType = {
+  isOwner: boolean
+  profile: ProfileType | null
+  status: string
+  updateStatus: (status: string) => void
+  savePhoto: (file: File) => void
+  saveProfile: (profile: ProfileType, setStatus: any) => Promise<any>
+}
+
+const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto, saveProfile }: PropsType) => {
    let [editMode, setEditMode] = useState(false)
 
-  //если профайла нет
   if (!profile) {
     return <Preloader />
   }
 
-  const onMainPhotoSelected = (e) => {
+  const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
     //если файл выбран
-    if (e.target.files.length) {
+    if (e.target.files?.length) {
       //в колбэк savePhoto вложить выбранный файл (он будет под индексом 0)
       savePhoto(e.target.files[0])
     }
   }
 
-  const onSubmit = (formData) => {
-    saveProfile(formData).then(() => {
+  const onSubmit = (formData: ProfileType, setStatus: any) => {
+    saveProfile(formData, setStatus).then(() => {
       setEditMode(false)
-    }) 
+    })
   }
 
   return (
@@ -63,7 +68,13 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto, savePr
   )
 }
 
-const ProfileData =({profile, isOwner, goToEditMode}) =>{
+type ProfileDataPropsType = {
+  profile: ProfileType
+  isOwner: boolean
+  goToEditMode: () => void
+}
+
+const ProfileData =({profile, isOwner, goToEditMode}: ProfileDataPropsType) =>{
         return <div>
           {/* кнопка редактировать данные, которую видно только если мы isOwner (под своим логином), срабатывает событие и EditMode меняется на тру, открывается форма ProfileDataForm */}
           {isOwner && <div><button onClick={goToEditMode}>edit</button></div>}
@@ -83,13 +94,15 @@ const ProfileData =({profile, isOwner, goToEditMode}) =>{
           </div>
           <div>
             <b>Contacts:</b>
-            {Object.keys(profile.contacts).map((key) => {
-              if (profile.contacts[key]) {
+            {Object
+            .keys(profile.contacts)
+            .map((key) => {
+              if (profile.contacts[key as keyof ContactsType]) {
                 return (
                   <Contact
                     key={key}
                     contactTitle={key}
-                    contactValue={profile.contacts[key]}
+                    contactValue={profile.contacts[key as keyof ContactsType]}
                   />
                 )
               }
@@ -99,8 +112,18 @@ const ProfileData =({profile, isOwner, goToEditMode}) =>{
         </div>
 }
 
-const Contact = ({contactTitle, contactValue}) =>{
-  return <div className={s.contact}><b>{contactTitle}:</b>{contactValue}</div>
+type ContactPropsType = {
+  contactTitle: string
+  contactValue: string
+}
+
+const Contact = ({ contactTitle, contactValue }: ContactPropsType) => {
+  return (
+    <div className={s.contact}>
+      <b>{contactTitle}:</b>
+      {contactValue}
+    </div>
+  )
 }
 
 export default ProfileInfo

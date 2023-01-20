@@ -1,22 +1,33 @@
 import React from 'react'
 import s from './MyPosts.module.scss'
 import Post from './post/Post'
-import AddNewPostForm from '../AddNewPostForm/AddNewPostForm'
+import AddNewPostForm, { MyFormNewPost } from '../AddNewPostForm/AddNewPostForm'
+import { PostType } from '../../../types/types'
+
+type PropsType = {
+  addPost: (newPostText: string) => void
+  newPostText: string
+  posts: Array<PostType>
+}
 
 //тупой компонент,запускает ф-ю которая в него пришла addPost и в эту функцию передает text
-const MyPosts = React.memo((props) => {
+const MyPosts = (props: PropsType) => {
+  console.log(props)
+
   //перебирам массив с постами, и создаем новый в виде jsx
   //'Post' это компонент,в который мы передаем пропcы (message, likesCount) из массива posts
-  let postsElement = props.posts.map((p, index) => (
-    <Post
-      key={`postsElement_${index}`}
-      message={p.message}
-      likesCount={p.likesCount}
-    />
-  )).reverse()
+  let postsElement = props.posts
+    .map((p, index) => (
+      <Post
+        key={`postsElement_${index}`}
+        message={p.message}
+        likesCount={p.likesCount}
+      />
+    ))
+    .reverse()
 
   //при клике на кнопку вызываетcя колбэк, который берется из MyPostsContainer и оттуда добавляет пост
-  let onAddPost = (values) => {
+  let onAddPost = (values: MyFormNewPost) => {
     props.addPost(values.newPostText)
   }
 
@@ -29,6 +40,8 @@ const MyPosts = React.memo((props) => {
       <div className={s.postsBlock__posts}>{postsElement}</div>
     </div>
   )
-})
+}
 
-export default MyPosts
+const MyPostsMemorized = React.memo(MyPosts)
+
+export default MyPostsMemorized
